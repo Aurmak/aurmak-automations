@@ -6,6 +6,7 @@ import { IntegrationsGrid } from '../components/integrations/IntegrationsGrid';
 import { FindAutomation } from '../components/home/FindAutomation';
 import { Button } from '../components/ui/Button';
 import { ScopeWizard } from '../components/wizard/ScopeWizard';
+import { asset } from '../lib/asset';
 import { Seo } from '../components/Seo';
 
 export const HomePage: React.FC = () => {
@@ -41,7 +42,7 @@ export const HomePage: React.FC = () => {
           preload="auto"
           aria-hidden="true"
         >
-          <source src="/new.mp4" type="video/mp4" />
+          <source src={asset('new.mp4')} type="video/mp4" />
         </video>
         {/* Contrast overlay: an even 80% black wash across the whole video */}
         <div aria-hidden="true" className="absolute inset-0 bg-black/80" />

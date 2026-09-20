@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AUTOMATIONS_DATA } from '../../data/automations';
+import { asset } from '../../lib/asset';
 
 const SOCIAL_PATHS: Record<string, string> = {
   linkedin:
@@ -47,7 +48,7 @@ const LEGAL_NAV = [
 const FooterLockup: React.FC = () => (
   <Link to="/" className="group inline-flex items-center" aria-label="AURMAK Automations, home">
     <span className="inline-flex items-center gap-3.5 md:gap-4">
-      <img src="/logo-footer.svg" alt="AURMAK" className="h-9 w-auto shrink-0 md:h-11" />
+      <img src={asset('logo-footer.svg')} alt="AURMAK" className="h-9 w-auto shrink-0 md:h-11" />
       <span aria-hidden="true" className="h-[2em] w-px shrink-0 bg-white/25" />
       <span className="font-sans text-[1.05rem] md:text-[1.3rem] font-bold leading-none tracking-[0.2em] text-white">
         AUTOMATIONS

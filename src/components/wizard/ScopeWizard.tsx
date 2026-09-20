@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { Check, X, ArrowLeft, Sparkles } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { submitLead } from '../../lib/leads';
+import { asset } from '../../lib/asset';
 
 /**
  * A short, playful click-through scoping wizard in a modal.
@@ -419,7 +420,7 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
                         }`}
                       >
                         {option.logo ? (
-                          <img src={`/logos/${option.logo}.svg`} alt="" aria-hidden="true" className="h-7 w-7 object-contain shrink-0" />
+                          <img src={asset(`logos/${option.logo}.svg`)} alt="" aria-hidden="true" className="h-7 w-7 object-contain shrink-0" />
                         ) : (
                           <span className="text-2xl leading-none w-7 text-center" aria-hidden="true">{option.emoji}</span>
                         )}

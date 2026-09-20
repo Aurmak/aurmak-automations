@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { INTEGRATION_LOGOS, IntegrationLogo } from '../../data/integrations';
+import { asset } from '../../lib/asset';
 
 const LogoTile: React.FC<IntegrationLogo> = ({ name, slug, src }) => {
-  const localSrc = `/logos/${slug}.svg`;
+  const localSrc = asset(`logos/${slug}.svg`);
   const [imgSrc, setImgSrc] = useState(src ?? localSrc);
 
   return (

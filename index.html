@@ -4,6 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23004767'/><path d='M7 23L16 7L25 23H19.5L16 16.5L12.5 23H7Z' fill='%2303BFCB'/><rect x='14' y='18' width='4' height='4' fill='%23002B3D'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Restore the deep link that 404.html encoded, so the SPA router sees it (spa-github-pages). -->
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) { return s.replace(/~and~/g, '&'); })
+            .join('?');
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
     <title>AURMAK Automations | Business Process Automation Layer</title>
     <meta name="description" content="An external automation layer for your existing business applications. Our AI reads your documents and feeds, checks each record against live ERP data, posts what clears your rules, and routes exceptions to your team." />
     <meta name="robots" content="index, follow" />
