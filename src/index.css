@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm "Amber & Graphite" theme. Dark ramp is a warm espresso/graphite (was navy),
+     accent is amber-gold (was cyan). Neutrals are warm off-white/taupe. */
+  --color-aurmak-bg: #F8F5F0;
+  --color-aurmak-surface: #FFFFFF;
+  --color-aurmak-subtle: #F2EBE0;
+  --color-aurmak-border: #E7DED1;
+  --color-aurmak-borderHover: #D6C8B4;
+  --color-aurmak-borderActive: #F59E0B;
+  --color-aurmak-navy: #2A2019;
+  --color-aurmak-navyDark: #201812;
+  --color-aurmak-navyDeep: #16100B;
+  --color-aurmak-text: #4A3F35;
+  --color-aurmak-textDark: #2A2019;
+  --color-aurmak-textMuted: #6A5B4D;
+  --color-aurmak-textDim: #8A7B6D;
+  --color-aurmak-primary: #2A2019;
+  --color-aurmak-primaryHover: #3B2E24;
+  --color-aurmak-action: #F59E0B;
+  --color-aurmak-actionHover: #D97706;
+  --color-aurmak-actionDark: #92400E;
+  /* Deep amber for text links on LIGHT backgrounds: the bright amber above is too
+     light on white, this passes AA (~4.9:1) while still reading as the accent. */
+  --color-aurmak-actionText: #B45309;
+  --color-aurmak-success: #10B981;
+  --color-aurmak-successDark: #059669;
+  --color-aurmak-exception: #C2410C;
+  --color-aurmak-exceptionLight: #EA580C;
+  --color-aurmak-danger: #DC2626;
+  --color-aurmak-accent: #F59E0B;
+
+  --font-sans: 'Space Grotesk', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Menlo, Monaco, Consolas, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
+
+:root {
+  color-scheme: light;
+}
+
+/* Base element styles live in @layer base so Tailwind utilities (e.g. text-white,
+   font-mono) can still override them - an unlayered rule would always win in v4. */
+@layer base {
+  body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: var(--color-aurmak-bg);
+    color: var(--color-aurmak-text);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    color: var(--color-aurmak-textDark);
+  }
+}
+
+/* Accessible focus visible outlines */
+:focus-visible {
+  outline: 2px solid #03BFCB;
+  outline-offset: 2px;
+}
+
+/* Display headings: Space Grotesk reads best slightly tightened at large sizes.
+   In @layer base so per-element tracking-* utilities can still override it. */
+@layer base {
+  h1, h2 {
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Ledger figures: tabular + slashed zero so numeric/mono data lines up like an audit sheet */
+.font-mono,
+.font-mono-code,
+[class*="font-mono"] {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1, "zero" 1, "cv02" 1;
+}
+
+/* Restrained page-load reveal for the hero */
+@keyframes aurmak-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  animation: aurmak-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.reveal-1 { animation-delay: 0.05s; }
+.reveal-2 { animation-delay: 0.15s; }
+.reveal-3 { animation-delay: 0.28s; }
+.reveal-4 { animation-delay: 0.42s; }
+
+/* Subtle tech grid pattern inspired by Execoore header/hero background */
+.bg-tech-pattern {
+  background-color: #F4F7FA;
+  background-image: 
+    linear-gradient(to right, rgba(0, 71, 103, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 71, 103, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Signature Execoore text highlight line */
+.text-highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.text-highlight::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  width: 100%;
+  height: 6px;
+  background-color: #03BFCB;
+  opacity: 0.35;
+  z-index: -1;
+  border-radius: 2px;
+}
+
+/* Execoore card box shadow */
+.shadow-execoore {
+  box-shadow: 0 10px 30px -5px rgba(0, 43, 61, 0.07), 0 2px 6px -2px rgba(0, 43, 61, 0.04);
+}
+
+.shadow-execoore-hover {
+  box-shadow: 0 18px 40px -10px rgba(0, 71, 103, 0.12), 0 4px 12px -2px rgba(0, 71, 103, 0.06);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
