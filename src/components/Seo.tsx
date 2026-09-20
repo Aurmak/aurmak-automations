@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 
-/** Production origin. Update if the site is served from a different host. */
-export const SITE_URL = 'https://aurmak.com';
+/**
+ * Absolute base URL of the deployed site. Currently GitHub Pages; when the site
+ * moves to a custom domain (e.g. https://aurmak.com), change this one line and the
+ * matching absolute URLs in index.html / robots.txt / sitemap.xml.
+ */
+export const SITE_URL = 'https://aurmak.github.io/aurmak-automations';
 export const SITE_NAME = 'AURMAK Automations';
 export const OG_IMAGE = `${SITE_URL}/og-image.png`;
 

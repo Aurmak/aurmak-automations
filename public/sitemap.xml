@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://aurmak.com/</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/solutions/payment-reconciliation</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/solutions/payment-reconciliation</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/solutions/supplier-invoice-matching</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/solutions/supplier-invoice-matching</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/solutions/customer-onboarding</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/solutions/customer-onboarding</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/solutions/inventory-stock-adjustment</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/solutions/inventory-stock-adjustment</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/solutions/contract-milestone-billing</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/solutions/contract-milestone-billing</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/solutions/email-client-addon</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/solutions/email-client-addon</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/contact</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/contact</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/privacy</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/privacy</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/cookies</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/cookies</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://aurmak.com/terms</loc>
+    <loc>https://aurmak.github.io/aurmak-automations/terms</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
