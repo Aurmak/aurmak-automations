@@ -50,7 +50,7 @@ export const Navbar: React.FC = () => {
           <Link to="/" className="group inline-flex items-center" aria-label="AURMAK Automations, home">
             <span className="inline-flex items-center gap-3.5 md:gap-4">
               <AurmakMark className="h-9 w-auto shrink-0 md:h-11" />
-              <span aria-hidden="true" className="h-[2em] w-px shrink-0 bg-aurmak-border" />
+              <span aria-hidden="true" className="hidden sm:block h-[2em] w-px shrink-0 bg-aurmak-border" />
               <span className="hidden sm:inline font-sans text-[1.05rem] md:text-[1.3rem] font-bold leading-none tracking-[0.2em] text-aurmak-navy">
                 AUTOMATIONS
               </span>
@@ -72,7 +72,9 @@ export const Navbar: React.FC = () => {
           </nav>
 
           <div className="flex items-center gap-3">
-            <ScopeWizard label="Get my free plan" variant="primary" size="md" className="hidden xl:inline-flex" />
+            <div className="hidden xl:block">
+              <ScopeWizard label="Get my free plan" variant="primary" size="md" />
+            </div>
 
             <button
               type="button"

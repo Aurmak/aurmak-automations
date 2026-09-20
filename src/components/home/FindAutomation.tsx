@@ -85,7 +85,9 @@ export const FindAutomation: React.FC = () => {
             <button
               key={tab.key}
               role="tab"
+              id={`tab-${tab.key.replace(/\s+/g, '-')}`}
               aria-selected={isActive}
+              aria-controls={`panel-${tab.key.replace(/\s+/g, '-')}`}
               onClick={() => setActive(tab.key)}
               className={`rounded-full px-5 py-2.5 text-base font-semibold font-sans transition-all cursor-pointer ${
                 isActive
@@ -102,7 +104,12 @@ export const FindAutomation: React.FC = () => {
       <p className="text-base text-aurmak-textMuted mt-5 mb-6">{current.intro}</p>
 
       {/* Capability cards - what we can automate, not a list of what's on the shelf */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+      <div
+        role="tabpanel"
+        id={`panel-${active.replace(/\s+/g, '-')}`}
+        aria-labelledby={`tab-${active.replace(/\s+/g, '-')}`}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+      >
         {current.items.map((item, i) => {
           const Icon = item.icon;
           return (

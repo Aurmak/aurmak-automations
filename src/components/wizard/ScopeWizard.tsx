@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Check, X, ArrowLeft, Sparkles } from 'lucide-react';
 import { Button } from '../ui/Button';
@@ -148,6 +148,10 @@ interface Estimate {
   moneyYear: number;
 }
 
+// Compact money so big figures (e.g. $816k) don't overflow the narrow stat columns on mobile.
+const formatMoney = (n: number): string =>
+  n >= 10000 ? `${CURRENCY}${Math.round(n / 1000)}k` : `${CURRENCY}${n.toLocaleString()}`;
+
 function computeEstimate(answers: Record<string, string | string[]>): Estimate {
   const volume = typeof answers['volume'] === 'string' ? VOLUME_MID[answers['volume'] as string] ?? 250 : 250;
   const tasks = Array.isArray(answers['automate']) ? (answers['automate'] as string[]) : [];
@@ -179,6 +183,7 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
   const [contact, setContact] = useState({ name: '', email: '', company: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [done, setDone] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const totalSteps = QUESTIONS.length + 1; // + contact step
 
@@ -189,13 +194,44 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
     };
   }, [open]);
 
+  // Escape closes; move focus into the dialog on open, trap Tab, and restore
+  // focus to the trigger on close.
   useEffect(() => {
     if (!open) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const panel = panelRef.current;
+    const focusables = () =>
+      panel
+        ? [...panel.querySelectorAll<HTMLElement>('button, a[href], input, [tabindex]:not([tabindex="-1"])')].filter(
+            (el) => !el.hasAttribute('disabled') && el.offsetParent !== null
+          )
+        : [];
+
+    focusables()[0]?.focus();
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const items = focusables();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      previouslyFocused?.focus?.();
+    };
   }, [open]);
 
   const reset = () => {
@@ -278,7 +314,7 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
         <div className="absolute inset-0 bg-black/60 backdrop-blur-md" aria-hidden="true" />
 
         {/* Panel */}
-        <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
+        <div ref={panelRef} className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
           {/* Progress + close */}
           <div className="px-6 pt-5 pb-4 border-b border-aurmak-border">
             <div className="flex items-center justify-between gap-4">
@@ -289,7 +325,7 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
                 type="button"
                 onClick={close}
                 aria-label="Close"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-aurmak-textMuted hover:bg-aurmak-subtle hover:text-aurmak-navy transition-colors"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-aurmak-textMuted hover:bg-aurmak-subtle hover:text-aurmak-navy transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -351,7 +387,7 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
                     </div>
                     <div className="rounded-xl bg-white py-4 px-1 shadow-sm">
                       <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 font-sans leading-none">
-                        {CURRENCY}{estimate.moneyYear.toLocaleString()}
+                        {formatMoney(estimate.moneyYear)}
                       </div>
                       <div className="text-sm sm:text-base text-aurmak-textMuted mt-1.5 leading-tight">you&rsquo;ll save a year</div>
                     </div>
@@ -376,17 +412,23 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
                       <input
                         type={f.type}
                         placeholder={f.placeholder}
+                        aria-label={f.placeholder}
                         value={contact[f.key]}
                         onChange={(e) => {
                           setContact({ ...contact, [f.key]: e.target.value });
                           if (errors[f.key]) setErrors((prev) => ({ ...prev, [f.key]: '' }));
                         }}
                         aria-invalid={errors[f.key] ? true : undefined}
-                        className={`w-full px-4 py-3.5 text-lg bg-white border rounded-lg text-aurmak-text placeholder:text-aurmak-textDim focus:outline-none focus:ring-2 focus:ring-aurmak-action ${
+                        aria-describedby={errors[f.key] ? `${f.key}-error` : undefined}
+                        className={`w-full px-4 py-3.5 text-lg bg-white border rounded-lg text-aurmak-text placeholder:text-aurmak-textMuted focus:outline-none focus:ring-2 focus:ring-aurmak-action ${
                           errors[f.key] ? 'border-aurmak-danger' : 'border-aurmak-border focus:border-aurmak-action'
                         }`}
                       />
-                      {errors[f.key] && <p className="mt-1.5 text-base text-aurmak-danger">{errors[f.key]}</p>}
+                      {errors[f.key] && (
+                        <p id={`${f.key}-error`} className="mt-1.5 text-base text-aurmak-danger">
+                          {errors[f.key]}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>

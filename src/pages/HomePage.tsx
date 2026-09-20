@@ -14,10 +14,16 @@ export const HomePage: React.FC = () => {
 
   // Force muted + play so the background video autoplays inline across browsers
   // (React does not always set the muted property from the attribute alone).
+  // Respect reduced-motion: leave the video paused on its first frame.
   useEffect(() => {
     const v = videoRef.current;
-    if (v) {
-      v.muted = true;
+    if (!v) return;
+    v.muted = true;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      v.removeAttribute('autoplay');
+      v.pause();
+    } else {
       v.play().catch(() => {});
     }
   }, []);

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
@@ -44,6 +45,7 @@ const RedirectSolution: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
+    <MotionConfig reducedMotion="user">
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <ScrollToTop />
       <div className="min-h-screen flex flex-col bg-aurmak-bg text-aurmak-text bg-tech-pattern">
@@ -73,6 +75,7 @@ export const App: React.FC = () => {
         <Footer />
       </div>
     </BrowserRouter>
+    </MotionConfig>
   );
 };
 

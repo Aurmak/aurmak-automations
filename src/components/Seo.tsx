@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 /** Production origin. Update if the site is served from a different host. */
 export const SITE_URL = 'https://aurmak.com';
 export const SITE_NAME = 'AURMAK Automations';
+export const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 interface SeoProps {
   /** Page title. The site name is appended automatically unless already present. */
@@ -47,10 +48,12 @@ export const Seo: React.FC<SeoProps> = ({ title, description, path = '' }) => {
     upsertMeta('property', 'og:url', url);
     upsertMeta('property', 'og:type', 'website');
     upsertMeta('property', 'og:site_name', SITE_NAME);
+    upsertMeta('property', 'og:image', OG_IMAGE);
 
     upsertMeta('name', 'twitter:card', 'summary_large_image');
     upsertMeta('name', 'twitter:title', fullTitle);
     upsertMeta('name', 'twitter:description', description);
+    upsertMeta('name', 'twitter:image', OG_IMAGE);
   }, [title, description, path]);
 
   return null;

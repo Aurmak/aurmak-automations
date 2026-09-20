@@ -208,7 +208,8 @@ export const AutomationDetailPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <Link
               to={`/solutions/${prev.slug}`}
-              className="group flex items-center gap-2 text-sm font-mono font-bold uppercase tracking-wider text-aurmak-navy hover:text-aurmak-actionText transition-colors"
+              aria-label={`Previous automation: ${prev.name}`}
+              className="group flex items-center gap-2 min-h-11 py-2 text-sm font-mono font-bold uppercase tracking-wider text-aurmak-navy hover:text-aurmak-actionText transition-colors"
             >
               <span aria-hidden="true">&larr;</span>
               <span className="hidden sm:inline">Previous</span>
@@ -216,7 +217,7 @@ export const AutomationDetailPage: React.FC = () => {
             <Link
               to="/#solutions"
               aria-label="All solutions"
-              className="w-9 h-9 mx-1 rounded-sm bg-aurmak-navy text-white flex items-center justify-center hover:bg-aurmak-action transition-colors"
+              className="w-11 h-11 mx-1 rounded-sm bg-aurmak-navy text-white flex items-center justify-center hover:bg-aurmak-action transition-colors"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
                 <rect x="1" y="1" width="6" height="6" rx="1" />
@@ -227,7 +228,8 @@ export const AutomationDetailPage: React.FC = () => {
             </Link>
             <Link
               to={`/solutions/${next.slug}`}
-              className="group flex items-center gap-2 text-sm font-mono font-bold uppercase tracking-wider text-aurmak-navy hover:text-aurmak-actionText transition-colors"
+              aria-label={`Next automation: ${next.name}`}
+              className="group flex items-center gap-2 min-h-11 py-2 text-sm font-mono font-bold uppercase tracking-wider text-aurmak-navy hover:text-aurmak-actionText transition-colors"
             >
               <span className="hidden sm:inline">Next</span>
               <span aria-hidden="true">&rarr;</span>

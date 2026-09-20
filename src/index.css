@@ -63,7 +63,7 @@
 
 /* Accessible focus visible outlines */
 :focus-visible {
-  outline: 2px solid #03BFCB;
+  outline: 2px solid var(--color-aurmak-actionText);
   outline-offset: 2px;
 }
 
