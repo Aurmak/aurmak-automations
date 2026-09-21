@@ -1,41 +1,124 @@
-name: Deploy to GitHub Pages
+name: Deploy production
+
+# automations.aurmak.com, from the `main` branch.
+#
+# Replaces the old GitHub Pages deploy. The pattern is the house one, the same as
+# Aurmak/Cyber-security-marketing and this repo's own staging workflow: static build,
+# mirrored into a Hestia docroot over SFTP.
+#
+# THE DOCROOT IS HARDCODED, deliberately. `mirror --delete` aimed at a path someone typed
+# by hand is how a live site gets deleted. Nothing about this workflow can be pointed at
+# another repo's docroot.
+#
+# The Hestia web domain and Let's Encrypt certificate already exist
+# (/home/webuser/web/automations.aurmak.com). The deploy key
+# github-actions-automations-aurmak is in webuser's authorized_keys, held in this repo's
+# HESTIA_SSH_KEY secret — the same key and secret the staging workflow uses, same as
+# Cyber-security-marketing sharing one key across its deploy.yml and staging.yml.
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    inputs:
+      dry_run:
+        description: "Mirror with --dry-run, so the run reports rather than writes"
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  SERVER: 88.208.255.166
+  DOCROOT: /home/webuser/web/automations.aurmak.com/public_html
+  SITE_URL: https://automations.aurmak.com
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-  deploy:
-    needs: build
+  build-and-deploy:
+    name: Build, check the export, deploy
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: production
+      url: https://automations.aurmak.com
+    permissions:
+      contents: read
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Are the secrets present
+        run: |
+          missing=""
+          [ -n "${{ secrets.HESTIA_SSH_KEY }}" ] || missing="$missing HESTIA_SSH_KEY"
+          [ -n "${{ secrets.SERVER_HOST_KEY }}" ] || missing="$missing SERVER_HOST_KEY"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secret(s):$missing"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # No version pinned here on purpose. package.json sets packageManager, and giving the
+      # action a version as well fails with "Multiple versions of pnpm specified".
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Check the build looks right
+        run: |
+          fail() { echo "::error::$1"; exit 1; }
+
+          test -f dist/index.html || fail "no dist/index.html"
+          test -f dist/.htaccess || fail "public/.htaccess did not reach the build (SPA routing would break)"
+          grep -q 'content="index, follow"' dist/index.html \
+            || fail "meta robots is not index,follow — is this actually the production build?"
+          grep -q "Allow: /" dist/robots.txt \
+            || fail "robots.txt is not open — is this actually the production build?"
+
+          echo "$(find dist -type f | wc -l) files to deploy"
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HESTIA_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.SERVER_HOST_KEY }}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y lftp
+
+      - name: Deploy via SFTP (lftp mirror)
+        run: |
+          DRY=""
+          [ "${{ inputs.dry_run }}" = "true" ] && DRY="--dry-run"
+          lftp -u webuser, sftp://${SERVER} <<EOF
+            set sftp:connect-program "ssh -a -x -i /home/runner/.ssh/id_ed25519 -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/home/runner/.ssh/known_hosts"
+            set net:max-retries 3
+            set net:reconnect-interval-base 5
+            set net:timeout 30
+            mirror -R --delete --verbose $DRY ./dist/ ${DOCROOT}
+            bye
+          EOF
+
+      - name: Check what the server actually serves
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          sleep 5
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -L "${SITE_URL}/") || true
+          echo "GET ${SITE_URL}/ -> $code"
+          [ "$code" = "200" ] || { echo "::error::production did not return 200"; exit 1; }
+          echo "production is up."

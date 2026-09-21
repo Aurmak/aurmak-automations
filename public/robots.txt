@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aurmak.github.io/aurmak-automations/sitemap.xml
+Sitemap: https://automations.aurmak.com/sitemap.xml
