@@ -91,7 +91,7 @@ export const FindAutomation: React.FC = () => {
               onClick={() => setActive(tab.key)}
               className={`rounded-full px-5 py-2.5 text-base font-semibold font-sans transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-aurmak-navy text-white shadow-sm'
+                  ? 'bg-aurmak-human text-white shadow-sm'
                   : 'text-aurmak-textMuted hover:text-aurmak-navy'
               }`}
             >

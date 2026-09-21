@@ -26,7 +26,7 @@ export const Button: React.FC<ButtonProps> = ({
   // Navy is a dark fill: it needs white text. Hovers stay within the same lightness band
   // so the label never drops below AA.
   const variantClasses = {
-    primary: 'bg-aurmak-action text-aurmak-navyDark hover:bg-aurmak-actionHover active:bg-aurmak-actionHover shadow-sm',
+    primary: 'bg-aurmak-cta text-aurmak-navyDark hover:bg-aurmak-ctaHover active:bg-aurmak-ctaHover shadow-sm',
     secondary: 'bg-aurmak-navy text-white hover:bg-aurmak-primaryHover active:bg-aurmak-navyDark shadow-sm',
     outline: 'bg-transparent text-aurmak-navy border-2 border-aurmak-navy hover:bg-aurmak-navy hover:text-white',
     // For dark backgrounds (hero): white border/text, fills white with navy text on hover.

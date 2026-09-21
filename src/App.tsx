@@ -48,7 +48,7 @@ export const App: React.FC = () => {
     <MotionConfig reducedMotion="user">
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col bg-aurmak-bg text-aurmak-text bg-tech-pattern">
+      <div className="min-h-screen flex flex-col bg-aurmak-bg text-aurmak-text">
         <Navbar />
         <main className="flex-grow">
           <Routes>

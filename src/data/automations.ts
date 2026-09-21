@@ -4,6 +4,7 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
   {
     id: 'payment-reconciliation',
     slug: 'payment-reconciliation',
+    group: 'Finance',
     name: 'Payment Reconciliation Automation',
     tagline: 'Automated matching between bank settlement feeds and open sales invoices.',
     operationalResult: 'Reconciles daily settlements automatically and flags fee discrepancies to finance.',
@@ -107,6 +108,7 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
   {
     id: 'supplier-invoice-matching',
     slug: 'supplier-invoice-matching',
+    group: 'Finance',
     name: 'Supplier Invoice & PO Matching Automation',
     tagline: 'Extracts line items from supplier bills and validates against approved purchase orders.',
     operationalResult: 'Approves standard supplier bills into AP and routes unit price variances to purchasing.',
@@ -210,6 +212,7 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
   {
     id: 'customer-onboarding',
     slug: 'customer-onboarding',
+    group: 'Operations',
     name: 'Customer Onboarding Automation',
     tagline: 'Coordinates customer records, registry checks, and account setup across CRM and ERP.',
     operationalResult: 'Validates corporate entities, provisions ERP accounts, and alerts teams if documents are missing.',
@@ -313,6 +316,7 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
   {
     id: 'inventory-stock-adjustment',
     slug: 'inventory-stock-adjustment',
+    group: 'Operations',
     name: 'Stock Discrepancy & ERP Adjustment Automation',
     tagline: 'Compares warehouse cycle counts and 3PL reports with ERP inventory balances.',
     operationalResult: 'Reconciles routine variance within tolerance and routes major count differences to warehouse leads.',
@@ -416,6 +420,7 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
   {
     id: 'contract-milestone-billing',
     slug: 'contract-milestone-billing',
+    group: 'Finance',
     name: 'Contract Milestone Billing & Subscription Sync',
     tagline: 'Synchronizes delivery milestone sign-offs with recurring billing and revenue recognition.',
     operationalResult: 'Issues approved invoices as milestones complete, keeping revenue recognition synchronized.',
@@ -519,6 +524,7 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
   {
     id: 'email-client-addon',
     slug: 'email-client-addon',
+    group: 'Productivity',
     name: 'Email Add-on for Outlook & Gmail',
     tagline: 'An inbox add-in that turns incoming emails and attachments into automated actions.',
     operationalResult: 'Staff capture attachments into the automation and clear exceptions without leaving their inbox.',
@@ -611,6 +617,312 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
       'Approve the add-in in your Microsoft 365 or Google Workspace admin',
       'Nominate the shared inboxes to monitor',
       'Confirm approval limits for each user role'
+    ]
+  },
+  {
+    id: 'school-operations',
+    slug: 'school-operations',
+    group: 'Operations',
+    name: 'School Operations Automation',
+    tagline: 'A layer over your existing school system that watches its records and chases fees, attendance, and homework.',
+    operationalResult: 'Sends fee, attendance, and homework reminders on its own, while every change to a record waits for a person to confirm it.',
+    category: 'Schools & Education',
+    inputs: [
+      'Your existing school management system (fees, attendance, exams, timetable)',
+      'Fee challans, due dates, and payment records',
+      'Daily attendance registers, homework, leave applications, and parent queries'
+    ],
+    actions: [
+      'Reminds guardians by SMS when a challan is due or overdue',
+      'Chases teachers whose register is not marked, then the class teacher',
+      'Drafts attendance warning and arrears letters and holds them for a signature',
+      'Flags a five-point result drop to the class teacher and sends a Monday finance digest'
+    ],
+    exceptions: [
+      'Anything that changes a record, which always waits for a person to confirm',
+      'Attendance warning letters and three-month arrears escalations',
+      'First replies to parent queries, drafted from your own policy documents'
+    ],
+    compatibility: {
+      platforms: ['In-house school management systems', 'Student information systems (SIS)', 'Bahria Town School MIS', 'SMS and notification gateways'],
+      accessRequirements: [
+        'Read access to fees, attendance, homework, and exam records, scoped to each role',
+        'Permission to send SMS and notices through your existing channels',
+        'Your own permission rows so each person sees only what their role allows'
+      ]
+    },
+    problemDescription: 'A school management system holds every fee, register, and result, but it cannot notice something and act on it. So a register goes unmarked, a challan slips past its due date, and a child stays below the promotion attendance rule until someone happens to look. The answer is already in the data; nobody is being told.',
+    intendedResult: 'Nine rules watch the school’s own records continuously and act under the permissions of whoever they run for. A reminder goes out on its own; a letter or a record change is prepared and held until a person presses confirm. Staff spend their time on the exceptions, not on remembering.',
+    workflowStages: [
+      {
+        title: 'Continuous Record Watch',
+        detail: 'Reads fees, attendance, homework, and results from your school system, scoped to each role.',
+        actor: 'External Input'
+      },
+      {
+        title: 'Rule Evaluation',
+        detail: 'Checks each rule live, such as challans due in three days or classes with no register today.',
+        actor: 'AURMAK Layer'
+      },
+      {
+        title: 'Message or Draft',
+        detail: 'Sends the reminder itself, or prepares the letter, reply, or change and holds it.',
+        actor: 'AURMAK Layer'
+      },
+      {
+        title: 'Human Confirmation',
+        detail: 'Anything that changes a record waits for the right person to review and confirm it.',
+        actor: 'Human Reviewer'
+      },
+      {
+        title: 'Write-Back',
+        detail: 'The confirmed action posts to your school system through the same single commit step.',
+        actor: 'Connected Application'
+      }
+    ],
+    dataRead: [
+      'Fee challans, due dates, balances, and arrears by family',
+      'Daily attendance registers, the promotion attendance rule, and homework submissions',
+      'Leave applications, parent queries, and exam results across sittings'
+    ],
+    dataWritten: [
+      'SMS and notices to guardians, teachers, and approvers',
+      'Drafted letters and replies held for approval, committed only after confirm',
+      'A run log recording every action, who it ran for, and the permission behind it'
+    ],
+    humanApprovalRules: [
+      'Every automation that changes a record, with no exception at any permission level',
+      'Attendance warning letters and three-month arrears escalations before they leave',
+      'The first reply to a parent query, drafted from policy but sent by a person'
+    ],
+    implementationStages: [
+      {
+        phase: 'System Mapping',
+        description: 'Map your school system’s reads and endpoints so the layer points at your data with a base-URL swap.',
+        deliverable: 'Connected demo school'
+      },
+      {
+        phase: 'Permission Mapping',
+        description: 'Bring in your own role and permission rows so each person sees exactly what they should.',
+        deliverable: 'Role and capability map'
+      },
+      {
+        phase: 'Supervised Pilot',
+        description: 'Run the rules in review mode where every reminder and draft is checked before it goes out.',
+        deliverable: 'Validated run log'
+      },
+      {
+        phase: 'Live Rollout',
+        description: 'Turn on automatic reminders and confirmed write-backs, with the switch for each rule in your hands.',
+        deliverable: 'Production activation'
+      }
+    ],
+    clientResponsibilities: [
+      'Provide scoped API access to your school management system',
+      'Share your role and permission rows so access matches your own policy',
+      'Nominate the people who confirm letters, replies, and record changes'
+    ]
+  },
+  {
+    id: 'document-receipt-verification',
+    slug: 'document-receipt-verification',
+    group: 'Finance',
+    name: 'Document & Receipt Verification',
+    tagline: 'Reads deposit slips, cheques, and transfer proofs from a hot folder, checks each one twice, and matches it to your bank and ledger records.',
+    operationalResult: 'Verifies every receipt against the real bank statement or ledger and recommends approve or reject, with a person signing off each decision until accuracy is proven.',
+    category: 'Finance & Accounting',
+    inputs: [
+      'Files dropped into a watched hot folder on OneDrive, Google Drive, or a local server, so nobody uploads into the ERP',
+      'Cash deposit slips, cheque photos, online transfer receipts, and internal vouchers',
+      'Bank statements and cash ledgers delivered to their own separate reference folder'
+    ],
+    actions: [
+      'Reads every document twice, with a Vision AI model and a separate OCR engine, then compares both',
+      'Matches each receipt to the bank statement line, cash ledger, or Odoo record that proves it',
+      'Applies your own SOP rules for cash, cheque, online, and internal receipts',
+      'Recommends approve or reject in Odoo with the matching evidence and a clear reason attached'
+    ],
+    exceptions: [
+      'The two reads disagree, or confidence falls below your threshold',
+      'A cheque is returned or dishonoured, or one deposit is split across several receipts',
+      'No unique match exists in the bank statement, cash ledger, or approved Odoo record'
+    ],
+    compatibility: {
+      platforms: ['Odoo Enterprise', 'OneDrive / SharePoint hot folder', 'Google Drive hot folder', 'Local or on-premise server folder'],
+      accessRequirements: [
+        'A watched hot folder for incoming documents, and a separate one for bank and ledger records',
+        'Read access to the bank statements, cash ledgers, and Odoo records used as the source of truth',
+        'Write access to create the recommended receipt outcome in Odoo for a person to confirm'
+      ]
+    },
+    problemDescription: 'Finance teams lose hours checking deposit slips, cheque images, and transfer proofs by hand against bank statements and the ERP. Small differences in a name, date, amount, or bank detail turn into accounting and compliance risk, and asking staff to upload each file into Odoo only adds another manual step to the day.',
+    intendedResult: 'Staff drop the files into a hot folder, wherever they already keep them, and the work happens on its own. Each document is read twice, matched to the real bank or ledger record, checked against your rules, and brought to a person as a clear approve or reject with the evidence attached. It runs on your own isolated network, so the financial data never leaves, and nothing posts by itself until the accuracy is proven and you sign it off.',
+    workflowStages: [
+      {
+        title: 'Hot Folder Drop',
+        detail: 'Documents land in a watched folder on OneDrive, Google Drive, or a local server, so nobody has to upload anything into the ERP.',
+        actor: 'External Input'
+      },
+      {
+        title: 'Dual-Engine Extraction',
+        detail: 'A local Vision AI model and a separate OCR engine each read the document, and middleware compares both results and their confidence before anything moves on.',
+        actor: 'AURMAK Layer'
+      },
+      {
+        title: 'Evidence & SOP Check',
+        detail: 'The receipt is matched to the bank statement, cash ledger, or Odoo record and tested against your cash, cheque, online, and internal rules.',
+        actor: 'AURMAK Layer'
+      },
+      {
+        title: 'Recommended Outcome in Odoo',
+        detail: 'An approve or reject recommendation is created in Odoo with the matching evidence kept and the reason recorded.',
+        actor: 'Connected Application'
+      },
+      {
+        title: 'Human Decision',
+        detail: 'An authorised reviewer confirms or overrides every outcome, building the record that later earns controlled automation.',
+        actor: 'Human Reviewer'
+      }
+    ],
+    dataRead: [
+      'Extracted fields from each receipt: amounts, dates, references, account and cheque numbers, and bank names',
+      'Bank statement lines, authorised cash ledger entries, and approved Odoo records used as evidence',
+      'Your SOP rules by receipt type, including weekend transfer and split-deposit handling'
+    ],
+    dataWritten: [
+      'A recommended receipt outcome in Odoo, with the matching evidence retained for audit',
+      'An explicit reason on every rejection, recorded against the Odoo record',
+      'A decision history of reviewer approvals and corrections for measuring accuracy'
+    ],
+    humanApprovalRules: [
+      'Every decision during the supervised period, until measured accuracy is proven',
+      'Confidence at or below 95%, any failed SOP check, or missing or conflicting evidence',
+      'Returned or dishonoured cheques, and deposits split across multiple receipts'
+    ],
+    implementationStages: [
+      {
+        phase: 'Discovery & SOP Capture',
+        description: 'Confirm receipt types, SOP rules, sample documents, and the hot folders to watch.',
+        deliverable: 'Agreed rules and folder map'
+      },
+      {
+        phase: 'On-Premise Setup',
+        description: 'Deploy the local AI and OCR engines on an isolated network, with an encrypted sync to your Odoo data.',
+        deliverable: 'Private processing environment'
+      },
+      {
+        phase: 'Supervised Calibration',
+        description: 'Run in propose-only mode on real documents while reviewers confirm or correct each outcome.',
+        deliverable: 'Measured accuracy by document type'
+      },
+      {
+        phase: 'Controlled Automation',
+        description: 'Enable automatic reconciliation only for cases above 95% confidence that pass every rule, after your formal sign-off.',
+        deliverable: 'Governed go-live'
+      }
+    ],
+    clientResponsibilities: [
+      'Provide the hot folders on your cloud or local server, and the bank and ledger reference records',
+      'Give scoped read access to the records used as the source of truth, and write access to Odoo receipts',
+      'Nominate authorised reviewers to confirm outcomes during the supervised period'
+    ]
+  },
+  {
+    id: 'ask-odoo-ai',
+    slug: 'ask-odoo-ai',
+    group: 'Productivity',
+    name: 'Ask Odoo AI Reporting',
+    tagline: 'Ask about your ledgers and projects in plain language and get answers from live Odoo data, with no report builder and no write access.',
+    operationalResult: 'Turns a plain question like "list unpaid cheques" into a read-only answer from live Odoo data, and can never change a record.',
+    category: 'Reporting & Insights',
+    inputs: [
+      'Plain-language questions typed inside Odoo, in everyday English',
+      'Live Odoo ledger, invoice, payment, and project data',
+      'The role permissions of whoever is asking, so each person queries only what they may see'
+    ],
+    actions: [
+      'Turns the question into a controlled, read-only database query',
+      'Reads the returned Odoo data and writes a clear, plain-language answer',
+      'Runs fully inside your private environment, with no data sent to a public AI service',
+      'Answers routine finance and project questions without building a custom report'
+    ],
+    exceptions: [
+      'A question that would need writing, editing, or deleting data, which it refuses by design',
+      'A request that reaches beyond the asker’s permissions',
+      'A question the available data cannot answer, which it says plainly rather than guessing'
+    ],
+    compatibility: {
+      platforms: ['Odoo Enterprise', 'On-premise or local server', 'Private cloud'],
+      accessRequirements: [
+        'Strictly read-only database access, with no write path of any kind',
+        'Your role permissions mapped so answers respect who is asking',
+        'A local text model running inside your own environment'
+      ]
+    },
+    problemDescription: 'Getting a straight answer out of an ERP usually means finding the right report, exporting it, or asking whoever knows where to look. Simple questions, like which cheques are unpaid or where a project stands, sit one query away but not in a form most staff can reach on their own.',
+    intendedResult: 'Anyone authorised can ask in plain language and get the answer from live data, right inside Odoo. The assistant only ever reads: it can retrieve and explain, but it cannot create, change, or delete a single record, and it runs on your own servers so the data never leaves.',
+    workflowStages: [
+      {
+        title: 'Ask in Plain Language',
+        detail: 'A member of staff types a question inside Odoo, such as "list unpaid cheques".',
+        actor: 'External Input'
+      },
+      {
+        title: 'Controlled Read-Only Query',
+        detail: 'The question becomes a safe, read-only database request, scoped to what the asker is allowed to see.',
+        actor: 'AURMAK Layer'
+      },
+      {
+        title: 'Read From Odoo',
+        detail: 'The query runs against live Odoo data with read-only access and returns only the rows that person may see.',
+        actor: 'Connected Application'
+      },
+      {
+        title: 'Plain-Language Answer',
+        detail: 'A local text model turns the returned data into a clear answer, and never writes anything back.',
+        actor: 'AURMAK Layer'
+      }
+    ],
+    dataRead: [
+      'Live Odoo ledgers, invoices, payments, and project records within the asker’s permissions',
+      'The plain-language question and the fields it refers to',
+      'Your role permissions, applied to every query'
+    ],
+    dataWritten: [
+      'Nothing to your records: the assistant has no write path and cannot change Odoo data',
+      'An optional local log of the questions asked, kept for your own review'
+    ],
+    humanApprovalRules: [
+      'Any request that would change data is refused outright, so no approval path exists',
+      'Questions that reach beyond the asker’s permissions return nothing',
+      'The assistant flags when the data cannot answer a question instead of guessing'
+    ],
+    implementationStages: [
+      {
+        phase: 'Question & Data Mapping',
+        description: 'Agree the common questions, the Odoo data behind them, and the read-only scopes per role.',
+        deliverable: 'Query scope and permission map'
+      },
+      {
+        phase: 'Local Model Setup',
+        description: 'Deploy the text model inside your environment with strictly read-only database access.',
+        deliverable: 'Private conversational agent'
+      },
+      {
+        phase: 'Supervised Testing',
+        description: 'Check answers against known reports across roles and question types.',
+        deliverable: 'Validated answer set'
+      },
+      {
+        phase: 'Rollout',
+        description: 'Open the assistant to authorised staff inside Odoo.',
+        deliverable: 'Live reporting assistant'
+      }
+    ],
+    clientResponsibilities: [
+      'Provide read-only database access and confirm the role permissions to respect',
+      'Share the common questions and existing reports to validate answers against',
+      'Nominate the staff who may use the assistant'
     ]
   }
 ];
