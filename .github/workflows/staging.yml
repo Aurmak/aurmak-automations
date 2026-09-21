@@ -89,6 +89,7 @@ jobs:
           fail() { echo "::error::$1"; exit 1; }
 
           test -f dist/index.html || fail "no dist/index.html"
+          test -f dist/.htaccess || fail "public/.htaccess did not reach the build (SPA routing would break)"
 
           printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
 
