@@ -78,8 +78,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        env:
-          VITE_BASE_PATH: "/"
         run: pnpm build
 
       # The gate. A staging site a crawler can reach is this site's content on Google
