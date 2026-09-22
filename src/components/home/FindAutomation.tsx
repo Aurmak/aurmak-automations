@@ -78,7 +78,7 @@ export const FindAutomation: React.FC = () => {
       </div>
 
       {/* Segmented pill tabs */}
-      <div role="tablist" aria-label="What we automate" className="inline-flex flex-wrap gap-1 p-1 rounded-full bg-white border border-aurmak-border shadow-execoore">
+      <div role="tablist" aria-label="What we automate" className="flex flex-wrap gap-2">
         {TABS.map((tab) => {
           const isActive = tab.key === active;
           return (
@@ -89,10 +89,10 @@ export const FindAutomation: React.FC = () => {
               aria-selected={isActive}
               aria-controls={`panel-${tab.key.replace(/\s+/g, '-')}`}
               onClick={() => setActive(tab.key)}
-              className={`rounded-full px-5 py-2.5 text-base font-semibold font-sans transition-all cursor-pointer ${
+              className={`rounded-full border px-5 py-2.5 text-base font-semibold font-sans transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-aurmak-human text-white shadow-sm'
-                  : 'text-aurmak-textMuted hover:text-aurmak-navy'
+                  ? 'bg-aurmak-humanFill text-white border-transparent shadow-sm'
+                  : 'bg-white text-aurmak-textMuted border-aurmak-border hover:text-aurmak-navy hover:border-aurmak-borderHover'
               }`}
             >
               {tab.key}

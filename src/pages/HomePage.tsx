@@ -32,8 +32,8 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-16 md:space-y-24 pb-16">
       <Seo
-        title="Business Process Automation Layer"
-        description="An external automation layer for your existing business applications. Our AI reads your documents and feeds, checks each record against live ERP data, posts what clears your rules, and routes exceptions to your team."
+        title="Cut the manual work out of your back office"
+        description="AURMAK automates the checking, matching and data entry that eats your team's day, inside the tools you already run like Odoo, Zoho and Xero. A person signs off anything that matters."
         path="/"
       />
       {/* 1. Hero - the thesis: automation that sits beside your system of record */}
@@ -46,7 +46,8 @@ export const HomePage: React.FC = () => {
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
+          poster={asset('hero-poster.jpg')}
           aria-hidden="true"
         >
           <source src={asset('new.mp4')} type="video/mp4" />
@@ -83,21 +84,21 @@ export const HomePage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
           {[
             {
-              img: 'chaos.png',
+              img: 'chaos.webp',
               accent: 'bg-red-500',
               title: 'Operational chaos',
               detail: 'Files pile up and get keyed in by hand, one typo away from a costly mistake.',
               alt: 'Manual ERP entry: a clock at 20 minutes, buried in CSV files, flagged with a typo and data error.'
             },
             {
-              img: 'aurmak.png',
+              img: 'aurmak.webp',
               accent: 'bg-emerald-500',
               title: 'The AURMAK automated layer',
               detail: 'Data flows straight from the source into your ERP, checked and fully synced.',
               alt: 'The AURMAK layer: a bank feed syncing straight into the ERP in 3 seconds, 100 percent synced.'
             },
             {
-              img: 'results.png',
+              img: 'results.webp',
               accent: 'bg-aurmak-action',
               title: 'The outcome',
               detail: 'Minutes of manual work become seconds, done for you and verified.',
@@ -117,7 +118,7 @@ export const HomePage: React.FC = () => {
               </TiltCard>
               <div className="space-y-3">
                 <div className={`h-1.5 w-12 rounded-full mx-auto ${c.accent}`} />
-                <h3 className="text-xl sm:text-2xl font-bold text-aurmak-navy font-sans leading-snug">{c.title}</h3>
+                <p className="text-xl sm:text-2xl font-bold text-aurmak-navy font-sans leading-snug">{c.title}</p>
                 <p className="text-base sm:text-lg text-aurmak-text leading-relaxed font-body">{c.detail}</p>
               </div>
             </div>
@@ -175,7 +176,7 @@ export const HomePage: React.FC = () => {
               }
             ].map((s) => (
               <li key={s.step} className="rounded-xl bg-white border border-aurmak-border shadow-execoore p-6 space-y-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-aurmak-human text-white text-base font-bold font-sans">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-aurmak-humanFill text-white text-base font-bold font-sans">
                   {s.step}
                 </span>
                 <h3 className="text-lg font-bold text-aurmak-navy font-sans leading-snug">{s.title}</h3>

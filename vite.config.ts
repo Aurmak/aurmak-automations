@@ -9,6 +9,18 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        // Keep the big, stable third-party libs in their own long-cached chunks,
+        // separate from app code (which changes far more often).
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'motion': ['framer-motion']
+        }
+      }
+    }
+  },
   server: {
     port: 3000,
     host: true,

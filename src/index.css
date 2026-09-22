@@ -38,6 +38,10 @@
      magenta marks where a person steps in (review, sign-off, exceptions). `human` is the
      fill/marker, `humanText` is the AA-contrast shade for text/markers on light grounds. */
   --color-aurmak-human: #E151AF;
+  /* Fill behind WHITE text (active tabs, step-number chips): a slightly deeper magenta
+     so white passes AA (4.9:1). The bright `human` above stays for borders/decoration
+     where it isn't carrying small white text. */
+  --color-aurmak-humanFill: #C82A9E;
   --color-aurmak-humanText: #A21CAF;
   --color-aurmak-humanSoft: #FBEAF5;
   --color-aurmak-accent: #E151AF;

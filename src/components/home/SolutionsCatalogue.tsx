@@ -21,7 +21,7 @@ export const SolutionsCatalogue: React.FC = () => {
       <div
         role="tablist"
         aria-label="Filter automations by area"
-        className="inline-flex flex-wrap gap-1 p-1 rounded-full bg-white border border-aurmak-border shadow-execoore"
+        className="flex flex-wrap gap-2"
       >
         {FILTERS.map((filter) => {
           const isActive = filter === active;
@@ -33,10 +33,10 @@ export const SolutionsCatalogue: React.FC = () => {
               aria-selected={isActive}
               aria-controls="solutions-grid"
               onClick={() => setActive(filter)}
-              className={`rounded-full px-5 py-2.5 text-base font-semibold font-sans transition-all cursor-pointer ${
+              className={`rounded-full border px-5 py-2.5 text-base font-semibold font-sans transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-aurmak-human text-white shadow-sm'
-                  : 'text-aurmak-textMuted hover:text-aurmak-navy'
+                  ? 'bg-aurmak-humanFill text-white border-transparent shadow-sm'
+                  : 'bg-white text-aurmak-textMuted border-aurmak-border hover:text-aurmak-navy hover:border-aurmak-borderHover'
               }`}
             >
               {filter}

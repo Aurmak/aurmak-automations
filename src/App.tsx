@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+// HomePage stays eager: it's the landing route and LCP target.
 import { HomePage } from './pages/HomePage';
-import { AutomationDetailPage } from './pages/AutomationDetailPage';
-import { ContactPage } from './pages/ContactPage';
-import { PrivacyPage } from './pages/PrivacyPage';
-import { CookiesPage } from './pages/CookiesPage';
-import { TermsPage } from './pages/TermsPage';
+// Secondary routes are split into their own chunks, loaded on demand.
+const AutomationDetailPage = lazy(() => import('./pages/AutomationDetailPage').then((m) => ({ default: m.AutomationDetailPage })));
+const ContactPage = lazy(() => import('./pages/ContactPage').then((m) => ({ default: m.ContactPage })));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage').then((m) => ({ default: m.PrivacyPage })));
+const CookiesPage = lazy(() => import('./pages/CookiesPage').then((m) => ({ default: m.CookiesPage })));
+const TermsPage = lazy(() => import('./pages/TermsPage').then((m) => ({ default: m.TermsPage })));
 
 // Scroll to top helper on navigation
 const ScrollToTop: React.FC = () => {
@@ -51,6 +53,7 @@ export const App: React.FC = () => {
       <div className="min-h-screen flex flex-col bg-aurmak-bg text-aurmak-text">
         <Navbar />
         <main className="flex-grow">
+          <Suspense fallback={<div className="min-h-[60vh]" aria-hidden="true" />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/solutions" element={<Navigate to="/#solutions" replace />} />
@@ -71,6 +74,7 @@ export const App: React.FC = () => {
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>

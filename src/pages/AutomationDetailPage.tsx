@@ -110,7 +110,7 @@ export const AutomationDetailPage: React.FC = () => {
             <ol className="relative border-l border-aurmak-border ml-3 space-y-6">
               {automation.workflowStages.map((stage, i) => (
                 <li key={i} className="pl-6 relative">
-                  <span className="absolute -left-3 top-0 w-6 h-6 rounded-sm bg-aurmak-human text-white text-sm font-bold flex items-center justify-center">
+                  <span className="absolute -left-3 top-0 w-6 h-6 rounded-sm bg-aurmak-humanFill text-white text-sm font-bold flex items-center justify-center">
                     {i + 1}
                   </span>
                   <h3 className="text-base font-bold text-aurmak-navy font-sans">{stage.title}</h3>

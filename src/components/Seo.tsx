@@ -7,7 +7,7 @@ import { useEffect } from 'react';
  */
 export const SITE_URL = 'https://aurmak.github.io/aurmak-automations';
 export const SITE_NAME = 'AURMAK Automations';
-export const OG_IMAGE = `${SITE_URL}/og-image.png`;
+export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 interface SeoProps {
   /** Page title. The site name is appended automatically unless already present. */
