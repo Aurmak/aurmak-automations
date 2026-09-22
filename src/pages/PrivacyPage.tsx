@@ -1,61 +1,42 @@
 import React from 'react';
-import { Badge } from '../components/ui/Badge';
-import { Seo } from '../components/Seo';
+import { ANALYTICS_ID } from '../lib/analytics';
+import { Link } from 'react-router-dom';
+import { PolicyLayout, PolicySection } from '../components/privacy/PolicyLayout';
 
-export const PrivacyPage: React.FC = () => {
-  return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 space-y-10">
-      <Seo
-        title="Privacy & Data Handling"
-        description="How AURMAK handles your data: only the access we need to your systems, a full log of every action, and AI that runs on your own servers when your data cannot leave."
-        path="/privacy"
-      />
-      <div className="border-b border-aurmak-border pb-6 space-y-3">
-        <Badge variant="navy">Legal & Compliance</Badge>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-aurmak-navy tracking-tight">
-          Privacy and Data Handling Policy
-        </h1>
-        <p className="text-sm text-aurmak-textMuted font-mono">
-          Last revised: September 2026 | Scope: automations.aurmak.com
-        </p>
-      </div>
-
-      <div className="bg-white rounded-sm border border-aurmak-border shadow-execoore p-8 md:p-10 space-y-8 text-sm text-aurmak-text leading-relaxed">
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold text-aurmak-navy tracking-tight">1. Architectural Data Boundary</h2>
-          <p>
-            AURMAK Automations operates as an external automation layer. In standard deployment, the client business applications (such as Odoo, Zoho, SAP, or custom databases) remain the permanent system of record. AURMAK processes transactional payloads transiently to perform validation checks, rule execution, and system write-backs.
-          </p>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold text-aurmak-navy tracking-tight">2. Website Enquiries and Contact Information</h2>
-          <p>
-            When you submit a demo request or custom automation enquiry through this website, we collect contact information including your name, work email address, organisation name, and technical details regarding your target processes. This information is used solely to respond to your enquiry, evaluate process feasibility, and schedule consultations.
-          </p>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold text-aurmak-navy tracking-tight">3. Confidential Business Documents</h2>
-          <p>
-            We explicitly request that prospective clients do not upload confidential financial records, proprietary trade secrets, or unredacted personal identifiers through initial web forms. When sample datasets are required for sandbox testing, they are handled under signed non-disclosure agreements through encrypted transfer endpoints.
-          </p>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold text-aurmak-navy tracking-tight">4. Telemetry and Analytics</h2>
-          <p>
-            The public website collects basic operational telemetry including page views, referrer data, and technical diagnostic logs to maintain performance and identify usability issues. We do not sell behavioural data or share visitor records with advertising brokers.
-          </p>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold text-aurmak-navy tracking-tight">5. Data Retention and Deletion</h2>
-          <p>
-            Enquiry records are retained only as long as necessary to conduct commercial discussions or as required by regulatory compliance. You may request the export or deletion of your contact records at any time by contacting privacy@aurmak.com.
-          </p>
-        </section>
-      </div>
-    </div>
-  );
-};
+export const PrivacyPage: React.FC = () => <PolicyLayout title="Privacy policy" description="How AURMAK Automations handles website enquiries, privacy preferences and technical information, and how to exercise your rights." path="/privacy">
+  <PolicySection title="About this policy">
+    <p>This policy covers the AURMAK Automations website and enquiries sent through it. AURMAK is responsible for the personal information used to handle these enquiries. Contact <Link className="underline text-aurmak-actionText" to="/contact">our contact team</Link> with a privacy question or request.</p>
+    <p>Data handled during a client automation project is a separate matter. The applicable service agreement and data processing terms should identify the parties&rsquo; roles, permitted uses, service providers, security arrangements and retention requirements.</p>
+  </PolicySection>
+  <PolicySection title="Information you give us">
+    <p>Our contact form collects your name, email address and any company name or message you provide. The automation planning form also collects your answers about your role, business, processes, volumes and software, and the estimate produced from those answers. Submissions include a submission time.</p>
+    <p>We use this information to reply, understand your requirements, provide requested results and discuss a potential project. Required fields are marked with an asterisk. You do not have to submit an enquiry, but we need the required details to respond.</p>
+    <p>Please do not include passwords, access credentials, payment details, sensitive personal information or confidential client records in these forms. Agree a suitable transfer method with us first if a project needs sample data.</p>
+  </PolicySection>
+  <PolicySection title="Why we use information">
+    <p>For business enquiries and follow-up discussions, our legitimate interest is responding to requests and assessing whether our services meet a prospective customer&rsquo;s needs. Where you ask us to take steps towards a contract with you personally, that processing may instead be necessary for those pre-contractual steps.</p>
+    <p>We use technical information to protect the website and prevent abuse, in our legitimate interest in operating a secure service. Optional analytics and external font requests rely on your permission through the privacy controls. Sending an enquiry does not sign you up to a marketing mailing list.</p>
+    <p className="font-semibold">You can object to processing based on legitimate interests by contacting us.</p>
+  </PolicySection>
+  <PolicySection title="How enquiries are delivered">
+    <p>The form service sends your submission to our team using Microsoft Graph and Microsoft email services. It also sends an acknowledgement or the requested automation results to the email address you provide. Enquiry records therefore exist in email systems; they are not limited to temporary processing within the website.</p>
+    <p>Authorised people handling your enquiry and the providers operating our website and email infrastructure may process information for those purposes. Information may also need to be disclosed where the law requires it or to handle a legal claim.</p>
+  </PolicySection>
+  <PolicySection title="Technical information and optional services">
+    <p>The enquiry endpoint uses a hashed IP address and recent request times to limit abusive submissions. It checks a rolling one-hour window; old rate-limit files are removed through periodic cleanup. Technical error logs are used to diagnose failed requests. Hosting infrastructure may also record IP addresses, request times, requested URLs and browser details in access and security logs.</p>
+    <p>{ANALYTICS_ID ? 'With your permission, Google Analytics measures page visits and device usage using cookie identifiers. We disable advertising features and do not send contact form entries, URL query strings or URL fragments to analytics.' : 'Google Analytics is planned but is not currently enabled. It will only load after you opt in when it becomes available.'} We do not use advertising tracking. It stores your privacy preference locally on your device. If you permit external fonts, your browser sends request information, including your IP address, to Google. See our <Link to="/cookies" className="underline text-aurmak-actionText">cookies policy</Link> for the choices, storage duration and withdrawal process.</p>
+    <p>Microsoft and Google operate internationally. The location and handling of provider data depend on the relevant service and account arrangements. Contact us for information about the arrangements relevant to your enquiry. Google explains its practices in its <a href="https://policies.google.com/privacy" className="underline text-aurmak-actionText">privacy policy</a>.</p>
+  </PolicySection>
+  <PolicySection title="How long information is kept">
+    <p>Enquiry retention depends on whether a discussion is ongoing, becomes a client engagement, or is needed to resolve a dispute or meet a legal obligation. Information that is no longer needed for these purposes should be deleted. Mailbox, backup and infrastructure log retention are separate from the browser preference period described in the cookies policy.</p>
+    <p>You can ask about the retention of your enquiry or request deletion. We will explain if information needs to be retained and why.</p>
+  </PolicySection>
+  <PolicySection title="Your rights and complaints">
+    <p>Depending on the circumstances and applicable law, you can request access to your personal information, correction, deletion, restriction of use, or a portable copy. You can object to use based on legitimate interests and withdraw permission for optional services without affecting the lawfulness of earlier processing.</p>
+    <p>Use <Link to="/contact" className="underline text-aurmak-actionText">our contact form</Link> to make a request. We may need information to verify your identity. Rights are subject to applicable conditions and exceptions.</p>
+    <p>You can complain to the UK Information Commissioner&rsquo;s Office at <a href="https://ico.org.uk/make-a-complaint/" className="underline text-aurmak-actionText">ico.org.uk/make-a-complaint</a>, or your local data protection authority. You do not have to contact us first.</p>
+  </PolicySection>
+  <PolicySection title="Automated results and updates">
+    <p>The planning tool produces indicative automation estimates from your answers. These are not decisions about your legal rights or eligibility for services. We may update this policy when our website or data handling changes.</p>
+  </PolicySection>
+</PolicyLayout>;

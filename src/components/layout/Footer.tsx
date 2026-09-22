@@ -116,10 +116,13 @@ export const Footer: React.FC = () => {
           <p className="flex flex-wrap gap-x-5 gap-y-2 text-[0.75rem] leading-relaxed text-white/70">
             <span>&copy; {year} AURMAK.</span>
             <a href="https://www.aurmak.com" className="text-white/80 transition-colors hover:text-white" rel="noopener">
-              aurmak.com
+              AURMAK
+            </a>
+            <a href="https://cyber.aurmak.com" className="text-white/80 transition-colors hover:text-white" rel="noopener">
+              Cybersecurity
             </a>
             <a href="https://aurmak.io" className="text-white/80 transition-colors hover:text-white" rel="noopener">
-              aurmak.io
+              Building Intelligence
             </a>
           </p>
           <ul className="flex flex-wrap gap-x-7 gap-y-3">

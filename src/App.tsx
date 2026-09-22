@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { MotionConfig } from 'framer-motion';
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
+import { CookieConsentProvider } from './components/privacy/CookieConsent';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 // HomePage stays eager: it's the landing route and LCP target.
@@ -49,6 +50,7 @@ export const App: React.FC = () => {
   return (
     <MotionConfig reducedMotion="user">
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <CookieConsentProvider>
       <ScrollToTop />
       <div className="min-h-screen flex flex-col bg-aurmak-bg text-aurmak-text">
         <Navbar />
@@ -78,6 +80,7 @@ export const App: React.FC = () => {
         </main>
         <Footer />
       </div>
+      </CookieConsentProvider>
     </BrowserRouter>
     </MotionConfig>
   );
