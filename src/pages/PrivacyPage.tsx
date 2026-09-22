@@ -31,7 +31,7 @@ export const PrivacyPage: React.FC = () => {
         <section className="space-y-3">
           <h2 className="text-lg font-bold text-aurmak-navy tracking-tight">2. Website Enquiries and Contact Information</h2>
           <p>
-            When you submit a demonstration request or custom automation enquiry through this website, we collect contact information including your name, work email address, organisation name, and technical details regarding your target processes. This information is used solely to respond to your enquiry, evaluate process feasibility, and schedule consultations.
+            When you submit a demo request or custom automation enquiry through this website, we collect contact information including your name, work email address, organisation name, and technical details regarding your target processes. This information is used solely to respond to your enquiry, evaluate process feasibility, and schedule consultations.
           </p>
         </section>
 

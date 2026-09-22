@@ -1,12 +1,11 @@
 /**
  * Where wizard and contact submissions are sent.
  *
- * Set LEAD_ENDPOINT to your own destination: a form service (Formspree, Web3Forms),
- * a serverless function, or a CRM webhook that accepts a JSON POST. While it is empty
- * the form still works and each submission is logged to the browser console, so nothing
- * is lost during development.
+ * public/api.php, reached through the /api/lead rewrite in public/.htaccess. It reads
+ * `source` to decide which emails to send — see that file for the full contract this
+ * payload shape has to satisfy.
  */
-const LEAD_ENDPOINT = '';
+const LEAD_ENDPOINT = '/api/lead';
 
 export interface Lead {
   source: 'wizard' | 'contact';
@@ -15,6 +14,10 @@ export interface Lead {
   company?: string;
   message?: string;
   answers?: Record<string, string | string[]>;
+  /** Wizard only — the impact estimate shown on the last step, so the email can show the
+   *  same numbers instead of the backend re-deriving them from a second copy of the
+   *  pricing model. moneyYear is pre-formatted (e.g. "$48k") for the same reason. */
+  estimate?: { hoursMonth: number; pct: number; moneyYear: string };
 }
 
 export async function submitLead(lead: Lead): Promise<boolean> {

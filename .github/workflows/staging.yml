@@ -1,0 +1,145 @@
+name: Deploy staging
+
+# staging.automations.aurmak.com, from the `staging` branch.
+#
+# This is the review site your manager asked for. It deploys on every push to `staging`
+# and must never be indexable: the gate below fails the build rather than ship a page a
+# crawler could pick up under a URL nobody meant to publish.
+#
+# The pattern is the house one, the same as Aurmak/Cyber-security-marketing's
+# .github/workflows/staging.yml: static build, mirrored into a Hestia docroot over SFTP.
+#
+# THE DOCROOT IS HARDCODED, deliberately. `mirror --delete` aimed at a path someone typed
+# by hand is how a live site gets deleted. Nothing about this workflow can be pointed at
+# production or at another repo's docroot.
+#
+# The Hestia web domain and Let's Encrypt certificate already exist
+# (/home/webuser/web/staging.automations.aurmak.com). The deploy key
+# github-actions-automations-aurmak is in webuser's authorized_keys, held in this repo's
+# HESTIA_SSH_KEY secret; SERVER_HOST_KEY is the server's ed25519 host key. Neither is
+# shared with any other repo's deploy key.
+
+on:
+  push:
+    branches: [staging]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Mirror with --dry-run, so the run reports rather than writes"
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+env:
+  SERVER: 88.208.255.166
+  DOCROOT: /home/webuser/web/staging.automations.aurmak.com/public_html
+  SITE_URL: https://staging.automations.aurmak.com
+
+jobs:
+  build-and-deploy:
+    name: Build, prove it is closed to search, deploy
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging.automations.aurmak.com
+    permissions:
+      contents: read
+    steps:
+      - name: Are the secrets present
+        run: |
+          missing=""
+          [ -n "${{ secrets.HESTIA_SSH_KEY }}" ] || missing="$missing HESTIA_SSH_KEY"
+          [ -n "${{ secrets.SERVER_HOST_KEY }}" ] || missing="$missing SERVER_HOST_KEY"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secret(s):$missing"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # No version pinned here on purpose. package.json sets packageManager, and giving the
+      # action a version as well fails with "Multiple versions of pnpm specified".
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      # The gate. A staging site a crawler can reach is this site's content on Google
+      # under a URL nobody meant to publish, so this fails the build rather than warns.
+      - name: Close the build to search
+        run: |
+          fail() { echo "::error::$1"; exit 1; }
+
+          test -f dist/index.html || fail "no dist/index.html"
+          test -f dist/.htaccess || fail "public/.htaccess did not reach the build (SPA routing would break)"
+
+          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+
+          if grep -q 'name="robots"' dist/index.html; then
+            sed -i 's#<meta name="robots" content="[^"]*" */>#<meta name="robots" content="noindex, nofollow" />#' dist/index.html
+          else
+            sed -i 's#</head>#  <meta name="robots" content="noindex, nofollow" />\n  </head>#' dist/index.html
+          fi
+          sed -i "s#https://aurmak.github.io/aurmak-automations/#${SITE_URL}/#g" dist/index.html
+
+          grep -q 'content="noindex, nofollow"' dist/index.html || fail "noindex meta tag did not land"
+          grep -q "Disallow: /" dist/robots.txt || fail "robots.txt does not disallow everything"
+
+          echo "Closed to search: noindex meta set, robots.txt disallows all."
+          echo "$(find dist -type f | wc -l) files to deploy"
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HESTIA_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.SERVER_HOST_KEY }}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y lftp
+
+      - name: Deploy via SFTP (lftp mirror)
+        run: |
+          DRY=""
+          [ "${{ inputs.dry_run }}" = "true" ] && DRY="--dry-run"
+          lftp -u webuser, sftp://${SERVER} <<EOF
+            set sftp:connect-program "ssh -a -x -i /home/runner/.ssh/id_ed25519 -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/home/runner/.ssh/known_hosts"
+            set net:max-retries 3
+            set net:reconnect-interval-base 5
+            set net:timeout 30
+            mirror -R --delete --verbose $DRY ./dist/ ${DOCROOT}
+            bye
+          EOF
+
+      - name: Check what the server actually serves
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          sleep 5
+          code=$(curl -sS -o /tmp/body -w '%{http_code}' -L "${SITE_URL}/") || true
+          echo "GET ${SITE_URL}/ -> $code"
+          [ "$code" = "200" ] || { echo "::error::staging did not return 200"; exit 1; }
+
+          grep -q 'content="noindex, nofollow"' /tmp/body \
+            || { echo "::error::served homepage carries no noindex"; exit 1; }
+
+          rob=$(curl -sS "${SITE_URL}/robots.txt")
+          echo "$rob" | grep -q "Disallow: /" \
+            || { echo "::error::served robots.txt does not disallow everything"; exit 1; }
+          echo "staging is up and closed to search."

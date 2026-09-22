@@ -20,7 +20,10 @@ const cardVariants = cva(
         emerald: 'bg-gradient-to-br from-emerald-50 to-emerald-100/70',
         blue: 'bg-gradient-to-br from-blue-50 to-blue-100/70',
         violet: 'bg-gradient-to-br from-violet-50 to-violet-100/70',
-        pink: 'bg-gradient-to-br from-pink-50 to-pink-100/70'
+        pink: 'bg-gradient-to-br from-pink-50 to-pink-100/70',
+        indigo: 'bg-gradient-to-br from-indigo-50 to-indigo-100/70',
+        teal: 'bg-gradient-to-br from-teal-50 to-teal-100/70',
+        orange: 'bg-gradient-to-br from-orange-50 to-orange-100/70'
       }
     },
     defaultVariants: {
@@ -65,21 +68,10 @@ const GradientCard = React.forwardRef<HTMLDivElement, GradientCardProps>(
 
     const isInternal = ctaHref.startsWith('/');
 
-    const titleNode = isInternal ? (
-      <Link to={ctaHref} className="hover:text-aurmak-actionText transition-colors">
-        {title}
-      </Link>
-    ) : (
-      title
-    );
-
-    const ctaClasses = 'group mt-6 inline-flex items-center gap-2 text-base font-semibold text-aurmak-navy hover:text-aurmak-actionText transition-colors';
-    const ctaInner = (
-      <>
-        {ctaText}
-        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-      </>
-    );
+    // The whole card is a single link. `title` is plain text and "View details"
+    // is a visual cue, so there is exactly one clickable target and no nested links.
+    const Wrapper = (isInternal ? Link : 'a') as React.ElementType;
+    const wrapperProps = isInternal ? { to: ctaHref } : { href: ctaHref };
 
     return (
       <motion.div
@@ -90,9 +82,11 @@ const GradientCard = React.forwardRef<HTMLDivElement, GradientCardProps>(
         className="h-full"
         ref={ref}
       >
-        <div
+        <Wrapper
+          {...wrapperProps}
           className={cn(
             cardVariants({ gradient }),
+            'group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aurmak-action focus-visible:ring-offset-2 focus-visible:ring-offset-aurmak-bg',
             featured && 'ring-2 ring-aurmak-action ring-offset-2 ring-offset-aurmak-bg',
             className
           )}
@@ -139,22 +133,17 @@ const GradientCard = React.forwardRef<HTMLDivElement, GradientCardProps>(
 
             {/* Title and description */}
             <div className="flex-grow">
-              <h3 className="text-2xl font-bold font-sans text-aurmak-navy leading-snug mb-2">{titleNode}</h3>
-              <p className="text-base text-aurmak-text leading-relaxed max-w-xs">{description}</p>
+              <h3 className="text-2xl font-bold font-sans text-aurmak-navy leading-snug mb-2 transition-colors group-hover:text-aurmak-actionText">{title}</h3>
+              <p className="text-base text-aurmak-text leading-relaxed">{description}</p>
             </div>
 
-            {/* Call to action */}
-            {isInternal ? (
-              <Link to={ctaHref} className={ctaClasses}>
-                {ctaInner}
-              </Link>
-            ) : (
-              <a href={ctaHref} className={ctaClasses}>
-                {ctaInner}
-              </a>
-            )}
+            {/* Call to action cue (not a separate link; the whole card is clickable) */}
+            <span className="mt-6 inline-flex items-center gap-2 text-base font-semibold text-aurmak-navy transition-colors group-hover:text-aurmak-actionText">
+              {ctaText}
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </span>
           </div>
-        </div>
+        </Wrapper>
       </motion.div>
     );
   }

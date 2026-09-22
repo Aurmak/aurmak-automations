@@ -1,35 +1,50 @@
 @import "tailwindcss";
 
 @theme {
-  /* Warm "Amber & Graphite" theme. Dark ramp is a warm espresso/graphite (was navy),
-     accent is amber-gold (was cyan). Neutrals are warm off-white/taupe. */
-  --color-aurmak-bg: #F8F5F0;
+  /* "Teal & Magenta" theme. Dark ramp is a deep teal-charcoal ink (was graphite),
+     primary/chrome is teal (#2BB8B3), the standout CTA is yellow (#FED43F), magenta
+     (#E151AF) is the pop accent, and neutrals are cool near-whites tinted toward the
+     palette's pale teal (#BED7D8). */
+  --color-aurmak-bg: #F4F8F8;
   --color-aurmak-surface: #FFFFFF;
-  --color-aurmak-subtle: #F2EBE0;
-  --color-aurmak-border: #E7DED1;
-  --color-aurmak-borderHover: #D6C8B4;
-  --color-aurmak-borderActive: #F59E0B;
-  --color-aurmak-navy: #2A2019;
-  --color-aurmak-navyDark: #201812;
-  --color-aurmak-navyDeep: #16100B;
-  --color-aurmak-text: #4A3F35;
-  --color-aurmak-textDark: #2A2019;
-  --color-aurmak-textMuted: #6A5B4D;
-  --color-aurmak-textDim: #8A7B6D;
-  --color-aurmak-primary: #2A2019;
-  --color-aurmak-primaryHover: #3B2E24;
-  --color-aurmak-action: #F59E0B;
-  --color-aurmak-actionHover: #D97706;
-  --color-aurmak-actionDark: #92400E;
-  /* Deep amber for text links on LIGHT backgrounds: the bright amber above is too
-     light on white, this passes AA (~4.9:1) while still reading as the accent. */
-  --color-aurmak-actionText: #B45309;
+  --color-aurmak-subtle: #E9F3F3;
+  --color-aurmak-border: #D5E6E5;
+  --color-aurmak-borderHover: #BED7D8;
+  --color-aurmak-borderActive: #2BB8B3;
+  --color-aurmak-navy: #123634;
+  --color-aurmak-navyDark: #0E2A28;
+  --color-aurmak-navyDeep: #081D1B;
+  --color-aurmak-text: #33403E;
+  --color-aurmak-textDark: #123634;
+  --color-aurmak-textMuted: #566360;
+  --color-aurmak-textDim: #7C8A87;
+  --color-aurmak-primary: #123634;
+  --color-aurmak-primaryHover: #1C4A47;
+  --color-aurmak-action: #2BB8B3;
+  --color-aurmak-actionHover: #219E99;
+  --color-aurmak-actionDark: #0E6E68;
+  /* Deep teal for text links on LIGHT backgrounds: the bright teal above fails on white,
+     this passes AA (~4.8:1) while still reading as the accent. */
+  --color-aurmak-actionText: #0F766E;
+  /* Standout CTA (primary buttons): the palette's yellow, always with dark ink text. */
+  --color-aurmak-cta: #FED43F;
+  --color-aurmak-ctaHover: #F2C11E;
   --color-aurmak-success: #10B981;
   --color-aurmak-successDark: #059669;
   --color-aurmak-exception: #C2410C;
   --color-aurmak-exceptionLight: #EA580C;
   --color-aurmak-danger: #DC2626;
-  --color-aurmak-accent: #F59E0B;
+  /* Human-in-the-loop accent (the palette's magenta). System rule: teal is the automation,
+     magenta marks where a person steps in (review, sign-off, exceptions). `human` is the
+     fill/marker, `humanText` is the AA-contrast shade for text/markers on light grounds. */
+  --color-aurmak-human: #E151AF;
+  /* Fill behind WHITE text (active tabs, step-number chips): a slightly deeper magenta
+     so white passes AA (4.9:1). The bright `human` above stays for borders/decoration
+     where it isn't carrying small white text. */
+  --color-aurmak-humanFill: #C82A9E;
+  --color-aurmak-humanText: #A21CAF;
+  --color-aurmak-humanSoft: #FBEAF5;
+  --color-aurmak-accent: #E151AF;
 
   --font-sans: 'Space Grotesk', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -96,15 +111,6 @@
 .reveal-2 { animation-delay: 0.15s; }
 .reveal-3 { animation-delay: 0.28s; }
 .reveal-4 { animation-delay: 0.42s; }
-
-/* Subtle tech grid pattern inspired by Execoore header/hero background */
-.bg-tech-pattern {
-  background-color: #F4F7FA;
-  background-image: 
-    linear-gradient(to right, rgba(0, 71, 103, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 71, 103, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
 
 /* Signature Execoore text highlight line */
 .text-highlight {

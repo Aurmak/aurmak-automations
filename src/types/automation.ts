@@ -3,7 +3,15 @@ export type AutomationCategory =
   | 'Operations & Logistics'
   | 'Customer & Onboarding'
   | 'Inventory & ERP'
-  | 'Email & Productivity';
+  | 'Email & Productivity'
+  | 'Schools & Education'
+  | 'Reporting & Insights';
+
+/**
+ * The team an automation serves, used by the catalogue filter tabs. One consistent
+ * axis (by team), matching the "By team" lens elsewhere on the page.
+ */
+export type AutomationGroup = 'Finance' | 'Operations' | 'Productivity';
 
 export interface WorkflowStage {
   title: string;
@@ -24,6 +32,8 @@ export interface AutomationProduct {
   tagline: string;
   operationalResult: string;
   category: AutomationCategory;
+  /** Coarse group used by the catalogue filter tabs. */
+  group: AutomationGroup;
   inputs: string[];
   actions: string[];
   exceptions: string[];
@@ -39,44 +49,4 @@ export interface AutomationProduct {
   humanApprovalRules: string[];
   implementationStages: ImplementationStage[];
   clientResponsibilities: string[];
-}
-
-export interface WorkflowSimulationPreset {
-  id: string;
-  title: string;
-  category: string;
-  inputDescription: string;
-  sampleInput: {
-    type: string;
-    identifier: string;
-    payloadPreview: Record<string, string | number>;
-  };
-  checks: {
-    rule: string;
-    status: 'pass' | 'warning' | 'fail';
-    detail: string;
-  }[];
-  systemAction: {
-    targetApp: string;
-    actionType: string;
-    payloadWritten: Record<string, string | number>;
-  };
-  exceptionPath: {
-    condition: string;
-    routedTo: string;
-    reason: string;
-    humanDecisionOptions: string[];
-  };
-}
-
-export interface CustomEnquiryFormData {
-  contactName: string;
-  email: string;
-  organisation: string;
-  processDescription: string;
-  connectedApplications: string[];
-  currentManualSteps: string;
-  monthlyVolume: string;
-  desiredOutcome: string;
-  hasDedicatedApiAccess: string;
 }

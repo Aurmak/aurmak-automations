@@ -6,15 +6,6 @@ import { Button } from '../components/ui/Button';
 import { Seo } from '../components/Seo';
 import { getAutomationIcon } from '../lib/automationIcons';
 
-/** A label / dotted-leader / value row, the signature of the Execoore detail sidebar. */
-const DetailRow: React.FC<{ label: string; value: string }> = ({ label, value }) => (
-  <div className="flex items-baseline gap-2">
-    <span className="font-body text-base font-semibold text-aurmak-navy shrink-0">{label}</span>
-    <span aria-hidden="true" className="flex-1 self-end mb-1.5 border-b border-dotted border-aurmak-borderHover" />
-    <span className="font-body text-base text-aurmak-text shrink-0 text-right">{value}</span>
-  </div>
-);
-
 export const AutomationDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const index = AUTOMATIONS_DATA.findIndex((a) => a.slug === id || a.id === id);
@@ -35,15 +26,6 @@ export const AutomationDetailPage: React.FC = () => {
       <Seo title={automation.name} description={automation.tagline} path={`/solutions/${automation.slug}`} />
       {/* Hero banner */}
       <section className="relative bg-aurmak-navy text-white overflow-hidden border-b-4 border-aurmak-action">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-[0.07] pointer-events-none"
-          style={{
-            backgroundImage:
-              'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
-            backgroundSize: '44px 44px'
-          }}
-        />
         {/* The automation's own icon, matching its card, as a hero watermark */}
         <Icon
           aria-hidden="true"
@@ -63,127 +45,102 @@ export const AutomationDetailPage: React.FC = () => {
             {automation.name}
           </h1>
 
-          <p className="text-base sm:text-lg text-stone-300 max-w-2xl leading-relaxed font-body">
+          <p className="text-base sm:text-lg text-stone-300 max-w-3xl leading-relaxed font-body">
             {automation.tagline}
           </p>
 
-          <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div className="pt-2">
             <Link to={`/contact?automation=${automation.slug}`}>
               <Button variant="primary" size="lg" className="w-full sm:w-auto">
-                Request a Demonstration
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button variant="outlineInverse" size="lg" className="w-full sm:w-auto">
-                Request Custom Rules
+                Request a Demo
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Two-column body */}
+      {/* Body */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-          {/* Main column */}
-          <div className="lg:col-span-8 space-y-10">
-            {/* Lead */}
-            <p className="text-lg text-aurmak-text leading-relaxed font-body">
-              {automation.problemDescription}
-            </p>
+        <div className="space-y-10">
+          {/* Lead */}
+          <p className="text-lg text-aurmak-text leading-relaxed font-body max-w-4xl">
+            {automation.problemDescription}
+          </p>
 
-            {/* Three hairline-divided sub-columns */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 border-t border-aurmak-border divide-y sm:divide-y-0 sm:divide-x divide-aurmak-border">
-              <div className="py-6 sm:py-0 sm:pt-8 sm:pr-8 space-y-3">
-                <h2 className="text-lg font-bold text-aurmak-navy font-sans">What it does</h2>
-                <ul className="space-y-2 text-base text-aurmak-text font-body">
-                  {automation.actions.map((action, i) => (
-                    <li key={i} className="flex items-start gap-2 leading-relaxed">
-                      <span className="text-aurmak-actionText font-bold mt-px">✓</span>
-                      <span>{action}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="py-6 sm:py-0 sm:pt-8 sm:px-8 space-y-3">
-                <h2 className="text-lg font-bold text-aurmak-navy font-sans">When a human steps in</h2>
-                <ul className="space-y-2 text-base text-aurmak-text font-body">
-                  {automation.exceptions.map((exception, i) => (
-                    <li key={i} className="flex items-start gap-2 leading-relaxed">
-                      <span className="text-aurmak-exception font-bold mt-px">&rarr;</span>
-                      <span>{exception}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="py-6 sm:py-0 sm:pt-8 sm:pl-8 space-y-3">
-                <h2 className="text-lg font-bold text-aurmak-navy font-sans">The result</h2>
-                <p className="text-base text-aurmak-text leading-relaxed font-body">
-                  {automation.operationalResult}
-                </p>
-              </div>
-            </div>
-
-            {/* How it runs - workflow sequence */}
-            <section className="border-t border-aurmak-border pt-8 space-y-6">
-              <h2 className="text-2xl font-extrabold text-aurmak-navy tracking-tight font-sans">
-                How it runs
-              </h2>
-
-              <ol className="relative border-l border-aurmak-border ml-3 space-y-6">
-                {automation.workflowStages.map((stage, i) => (
-                  <li key={i} className="pl-6 relative">
-                    <span className="absolute -left-3 top-0 w-6 h-6 rounded-sm bg-aurmak-navy text-white text-sm font-bold flex items-center justify-center">
-                      {i + 1}
-                    </span>
-                    <h3 className="text-base font-bold text-aurmak-navy font-sans">{stage.title}</h3>
-                    <p className="text-base text-aurmak-text leading-relaxed font-body mt-1">{stage.detail}</p>
+          {/* Three hairline-divided columns, full width */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 border-t border-aurmak-border divide-y sm:divide-y-0 sm:divide-x divide-aurmak-border">
+            <div className="py-6 sm:py-0 sm:pt-8 sm:pr-8 space-y-3">
+              <h2 className="text-lg font-bold text-aurmak-navy font-sans">What it does</h2>
+              <ul className="space-y-2 text-base text-aurmak-text font-body">
+                {automation.actions.map((action, i) => (
+                  <li key={i} className="flex items-start gap-2 leading-relaxed">
+                    <span className="text-aurmak-humanText font-bold mt-px">✓</span>
+                    <span>{action}</span>
                   </li>
                 ))}
-              </ol>
-            </section>
+              </ul>
+            </div>
+
+            <div className="py-6 sm:py-0 sm:pt-8 sm:px-8 space-y-3">
+              <h2 className="text-lg font-bold text-aurmak-navy font-sans">When a human steps in</h2>
+              <ul className="space-y-2 text-base text-aurmak-text font-body">
+                {automation.exceptions.map((exception, i) => (
+                  <li key={i} className="flex items-start gap-2 leading-relaxed">
+                    <span className="text-aurmak-humanText font-bold mt-px">&rarr;</span>
+                    <span>{exception}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="py-6 sm:py-0 sm:pt-8 sm:pl-8 space-y-3">
+              <h2 className="text-lg font-bold text-aurmak-navy font-sans">The result</h2>
+              <p className="text-base text-aurmak-text leading-relaxed font-body">
+                {automation.operationalResult}
+              </p>
+            </div>
           </div>
 
-          {/* Details sidebar */}
-          <aside className="lg:col-span-4">
-            <div className="lg:sticky lg:top-28 space-y-6">
-              <div className="bg-white border border-aurmak-border rounded-sm shadow-execoore p-6 space-y-5">
-                <h2 className="text-2xl font-extrabold text-aurmak-navy tracking-tight font-sans">
-                  At a glance
-                </h2>
+          {/* How it runs - workflow sequence */}
+          <section className="border-t border-aurmak-border pt-8 space-y-6">
+            <h2 className="text-2xl font-extrabold text-aurmak-navy tracking-tight font-sans">
+              How it runs
+            </h2>
 
-                <div className="space-y-3 border-t border-aurmak-border pt-4">
-                  <DetailRow label="Category" value={automation.category} />
-                  <DetailRow label="Execution" value="Autonomous & exception" />
-                  <DetailRow label="Primary system" value={automation.compatibility.platforms[0]} />
-                </div>
+            <ol className="relative border-l border-aurmak-border ml-3 space-y-6">
+              {automation.workflowStages.map((stage, i) => (
+                <li key={i} className="pl-6 relative">
+                  <span className="absolute -left-3 top-0 w-6 h-6 rounded-sm bg-aurmak-humanFill text-white text-sm font-bold flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                  <h3 className="text-base font-bold text-aurmak-navy font-sans">{stage.title}</h3>
+                  <p className="text-base text-aurmak-text leading-relaxed font-body mt-1">{stage.detail}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
 
-                <div className="border-t border-aurmak-border pt-4 space-y-1.5">
-                  <p className="text-base font-semibold text-aurmak-navy">Also runs on</p>
-                  <p className="text-base text-aurmak-text leading-relaxed">
-                    {automation.compatibility.platforms.slice(1).join(', ')}
-                  </p>
-                </div>
-
-                <div className="border-t border-aurmak-border pt-4 space-y-1.5">
-                  <p className="text-base font-semibold text-aurmak-navy">Access &amp; AI</p>
-                  <p className="text-base text-aurmak-text leading-relaxed">
-                    Scoped read/write through your own API, fully logged. The AI reads and extracts, running in our cloud or on your servers when data can&rsquo;t leave.
-                  </p>
-                </div>
-
-                <div className="border-t border-aurmak-border pt-4">
-                  <Link to={`/contact?automation=${automation.slug}`}>
-                    <Button variant="primary" size="md" className="w-full">
-                      Request a Demonstration
-                    </Button>
-                  </Link>
-                </div>
-              </div>
+          {/* Runs on / access, in a compact full-width strip */}
+          <section className="border-t border-aurmak-border pt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+            <div className="space-y-1.5">
+              <p className="text-base font-semibold text-aurmak-navy font-sans">Primary system</p>
+              <p className="text-base text-aurmak-text leading-relaxed font-body">
+                {automation.compatibility.platforms[0]}
+              </p>
             </div>
-          </aside>
+            <div className="space-y-1.5">
+              <p className="text-base font-semibold text-aurmak-navy font-sans">Also runs on</p>
+              <p className="text-base text-aurmak-text leading-relaxed font-body">
+                {automation.compatibility.platforms.slice(1).join(', ')}
+              </p>
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-base font-semibold text-aurmak-navy font-sans">Access &amp; AI</p>
+              <p className="text-base text-aurmak-text leading-relaxed font-body">
+                Scoped read/write through your own API, fully logged. The AI runs in our cloud, or on your servers when data can&rsquo;t leave.
+              </p>
+            </div>
+          </section>
         </div>
 
         {/* Related automations */}
@@ -237,7 +194,7 @@ export const AutomationDetailPage: React.FC = () => {
           </div>
 
           <Link to="/contact" className="text-base font-sans font-semibold text-aurmak-navy hover:text-aurmak-actionText transition-colors">
-            Book a demonstration &rarr;
+            Book a demo &rarr;
           </Link>
         </div>
       </div>

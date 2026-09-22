@@ -271,7 +271,15 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
     if (!contact.email.trim() || !contact.email.includes('@')) next.email = 'Please enter a valid email.';
     setErrors(next);
     if (Object.keys(next).length > 0) return;
-    submitLead({ source: 'wizard', name: contact.name, email: contact.email, company: contact.company, answers });
+    const est = computeEstimate(answers);
+    submitLead({
+      source: 'wizard',
+      name: contact.name,
+      email: contact.email,
+      company: contact.company,
+      answers,
+      estimate: { hoursMonth: est.hoursMonth, pct: est.pct, moneyYear: formatMoney(est.moneyYear) }
+    });
     setDone(true);
   };
 
@@ -343,8 +351,10 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
             </div>
           </div>
 
-          {/* Body */}
-          <div className="px-6 py-7 overflow-y-auto flex-1 min-h-[360px]">
+          {/* Body (scrolls; the Back/Continue controls scroll with it, not pinned to the panel) */}
+          <div className="overflow-y-auto flex-1 min-h-[360px]">
+            <div className="min-h-full flex flex-col px-6 py-7">
+              <div className="flex-1">
             {done ? (
               <div className="space-y-4 text-center py-6">
                 <div className="mx-auto w-14 h-14 rounded-full bg-emerald-50 border-2 border-emerald-500 text-emerald-600 flex items-center justify-center animate-bounce">
@@ -480,11 +490,11 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
                 </div>
               </div>
             )}
-          </div>
+              </div>
 
-          {/* Footer controls */}
-          {!done && (
-            <div className="px-6 py-4 border-t border-aurmak-border flex items-center justify-between gap-3">
+              {/* Controls (in-flow, so they scroll with the questions instead of pinning to the panel) */}
+              {!done && (
+                <div className="mt-7 pt-4 border-t border-aurmak-border flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={goBack}
@@ -503,8 +513,10 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
                   Continue
                 </Button>
               )}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>,
       document.body
