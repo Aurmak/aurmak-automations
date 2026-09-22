@@ -191,7 +191,7 @@ function contact_team_email(array $d): string {
         . nl2br(html_value($d['message'] ?: 'Not provided'))
         . '</div>'
         . '<div style="height:20px;"></div>'
-        . mail_p('Reply to this email to answer ' . html_value($d['name']) . ' directly — Reply-To is already set to their address.');
+        . mail_p('Reply to this email to answer ' . html_value($d['name']) . ' directly, Reply-To is already set to their address.');
 
     $footer = 'AURMAK Automations &middot; This enquiry was submitted from the contact form at '
         . '<a href="' . html_value($d['siteUrl']) . '" style="color:' . MAIL_ACTION_TEXT . ';">' . html_value($d['siteUrl']) . '</a>.';
@@ -207,7 +207,7 @@ function contact_ack_email(array $d): string {
         . 'font-family:' . MAIL_SANS . ';font-size:15px;line-height:1.7;color:' . MAIL_TEXT . ';margin-bottom:16px;">'
         . nl2br(html_value($d['message'] ?: 'Not provided'))
         . '</div>'
-        . mail_p('If anything changes in the meantime, just reply to this email — it reaches us directly.');
+        . mail_p('If anything changes in the meantime, just reply to this email, it reaches us directly.');
 
     $footer = 'AURMAK Automations &middot; <a href="' . html_value($d['siteUrl']) . '" style="color:' . MAIL_ACTION_TEXT . ';">' . html_value($d['siteUrl']) . '</a>'
         . ' &middot; <a href="mailto:' . html_value($d['contactTo']) . '" style="color:' . MAIL_ACTION_TEXT . ';">' . html_value($d['contactTo']) . '</a>';
@@ -318,7 +318,7 @@ function wizard_results_email(array $d, string $audience): string {
         $inner .= '<div style="height:8px;"></div>' . mail_button($d['siteUrl'], 'Visit AURMAK Automations');
     } else {
         $inner .= '<div style="height:8px;"></div>'
-            . mail_p('Reply to this email to answer ' . html_value($d['name']) . ' directly — Reply-To is already set to their address.');
+            . mail_p('Reply to this email to answer ' . html_value($d['name']) . ' directly, Reply-To is already set to their address.');
     }
 
     $footer = 'AURMAK Automations &middot; <a href="' . html_value($d['siteUrl']) . '" style="color:' . MAIL_ACTION_TEXT . ';">' . html_value($d['siteUrl']) . '</a>'
