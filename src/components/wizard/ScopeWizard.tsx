@@ -271,7 +271,15 @@ export const ScopeWizard: React.FC<ScopeWizardProps> = ({ label, variant = 'seco
     if (!contact.email.trim() || !contact.email.includes('@')) next.email = 'Please enter a valid email.';
     setErrors(next);
     if (Object.keys(next).length > 0) return;
-    submitLead({ source: 'wizard', name: contact.name, email: contact.email, company: contact.company, answers });
+    const est = computeEstimate(answers);
+    submitLead({
+      source: 'wizard',
+      name: contact.name,
+      email: contact.email,
+      company: contact.company,
+      answers,
+      estimate: { hoursMonth: est.hoursMonth, pct: est.pct, moneyYear: formatMoney(est.moneyYear) }
+    });
     setDone(true);
   };
 

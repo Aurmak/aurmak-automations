@@ -1,7 +1,18 @@
-# React Router does client-side routing, so any path that isn't a real file
-# (e.g. /pricing) must still be served index.html and let the app render it.
 RewriteEngine On
 RewriteBase /
+
+# The contact form and scope wizard both post here (src/lib/leads.ts). Same origin only,
+# so this must come before the SPA fallback below or the rewrite would swallow it first.
+RewriteRule ^api/lead/?$ api.php [L,QSA]
+
+# React Router does client-side routing, so any path that isn't a real file
+# (e.g. /pricing) must still be served index.html and let the app render it.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.html [L]
+
+# api.php is reached through the rewrite above, never by its own filename, and no other
+# PHP file belongs in this docroot at all.
+<FilesMatch "^(?!api\.php$).*\.php$">
+  Require all denied
+</FilesMatch>

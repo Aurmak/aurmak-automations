@@ -29,3 +29,16 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+
+# Graph mail config — holds a client secret, never committed. Start from
+# graph-config.example.php and upload with scripts/upload-mail-config.sh.
+graph-config.local.php
+graph-config.*.local.php
+
+# Local-only email preview output (scripts/preview-emails.sh)
+preview-*.html
+
+# Local stand-in for the server's Hestia private/ directory (api.php reads
+# ../private/graph_config.php relative to public/). Test-only, never deployed —
+# the deploy mirrors public/ alone.
+/private/
