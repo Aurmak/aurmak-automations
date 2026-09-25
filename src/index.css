@@ -149,3 +149,19 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Larger, comfortable controls on the contact page. */
+.contact-form label { font-size: 1rem; margin-bottom: 0.25rem; }
+.contact-form input, .contact-form textarea {
+  font-size: 1rem;
+  padding: 0.95rem 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-aurmak-bg);
+  color: var(--color-aurmak-textDark);
+}
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--color-aurmak-textMuted); }
+.contact-form textarea { resize: vertical; min-height: 11rem; }
+.contact-form input:focus-visible, .contact-form textarea:focus-visible {
+  outline: 2px solid var(--color-aurmak-actionText);
+  outline-offset: 2px;
+}
