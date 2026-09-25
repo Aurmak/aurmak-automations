@@ -32,7 +32,7 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-16 md:space-y-24 pb-16">
       <Seo
-        title="Cut manual work from your back office"
+        title="AURMAK Automations: Cut manual work from your back office"
         description="AURMAK automates the checking, matching and data entry that eats your team's day, inside tools like Odoo, Zoho and Xero. A person signs off what matters."
         path="/"
       />
