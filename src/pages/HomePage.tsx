@@ -32,8 +32,8 @@ export const HomePage: React.FC = () => {
   return (
     <div className="space-y-16 md:space-y-24 pb-16">
       <Seo
-        title="Cut the manual work out of your back office"
-        description="AURMAK automates the checking, matching and data entry that eats your team's day, inside the tools you already run like Odoo, Zoho and Xero. A person signs off anything that matters."
+        title="Cut manual work from your back office"
+        description="AURMAK automates the checking, matching and data entry that eats your team's day, inside tools like Odoo, Zoho and Xero. A person signs off what matters."
         path="/"
       />
       {/* 1. Hero - the thesis: automation that sits beside your system of record */}
