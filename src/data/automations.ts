@@ -629,11 +629,11 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
     category: 'Schools & Education',
     inputs: [
       'Your existing school management system (fees, attendance, exams, timetable)',
-      'Fee challans, due dates, and payment records',
+      'Fee invoices, due dates, and payment records',
       'Daily attendance registers, homework, leave applications, and parent queries'
     ],
     actions: [
-      'Reminds guardians by SMS when a challan is due or overdue',
+      'Reminds guardians by SMS when a fee invoice is due or overdue',
       'Chases teachers whose register is not marked, then the class teacher',
       'Drafts attendance warning and arrears letters and holds them for a signature',
       'Flags a five-point result drop to the class teacher and sends a Monday finance digest'
@@ -644,14 +644,14 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
       'First replies to parent queries, drafted from your own policy documents'
     ],
     compatibility: {
-      platforms: ['In-house school management systems', 'Student information systems (SIS)', 'Bahria Town School MIS', 'SMS and notification gateways'],
+      platforms: ['In-house school management systems', 'Student information systems (SIS)', 'Commercial school MIS platforms', 'SMS and notification gateways'],
       accessRequirements: [
         'Read access to fees, attendance, homework, and exam records, scoped to each role',
         'Permission to send SMS and notices through your existing channels',
         'Your own permission rows so each person sees only what their role allows'
       ]
     },
-    problemDescription: 'A school management system holds every fee, register, and result, but it cannot notice something and act on it. So a register goes unmarked, a challan slips past its due date, and a child stays below the promotion attendance rule until someone happens to look. The answer is already in the data; nobody is being told.',
+    problemDescription: 'A school management system holds every fee, register, and result, but it cannot notice something and act on it. So a register goes unmarked, a fee invoice slips past its due date, and a child stays below the promotion attendance rule until someone happens to look. The answer is already in the data; nobody is being told.',
     intendedResult: 'Nine rules watch the school’s own records continuously and act under the permissions of whoever they run for. A reminder goes out on its own; a letter or a record change is prepared and held until a person presses confirm. Staff spend their time on the exceptions, not on remembering.',
     workflowStages: [
       {
@@ -661,7 +661,7 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
       },
       {
         title: 'Rule Evaluation',
-        detail: 'Checks each rule live, such as challans due in three days or classes with no register today.',
+        detail: 'Checks each rule live, such as fee invoices due in three days or classes with no register today.',
         actor: 'AURMAK Layer'
       },
       {
@@ -681,7 +681,7 @@ export const AUTOMATIONS_DATA: AutomationProduct[] = [
       }
     ],
     dataRead: [
-      'Fee challans, due dates, balances, and arrears by family',
+      'Fee invoices, due dates, balances, and arrears by family',
       'Daily attendance registers, the promotion attendance rule, and homework submissions',
       'Leave applications, parent queries, and exam results across sittings'
     ],
