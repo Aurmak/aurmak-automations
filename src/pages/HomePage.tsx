@@ -243,8 +243,7 @@ export const HomePage: React.FC = () => {
                 <ul className="divide-y divide-white/10">
                   {[
                     { city: 'London', country: 'United Kingdom' },
-                    { city: 'Dubai', country: 'United Arab Emirates' },
-                    { city: 'Lahore', country: 'Pakistan' }
+                    { city: 'Dubai', country: 'United Arab Emirates' }
                   ].map((office) => (
                     <li key={office.city} className="flex items-center justify-between py-3">
                       <span className="inline-flex items-center gap-2.5">
@@ -255,7 +254,7 @@ export const HomePage: React.FC = () => {
                     </li>
                   ))}
                 </ul>
-                <p className="pt-3 text-xs text-stone-400 font-body">Three offices, one accountable team.</p>
+                <p className="pt-3 text-xs text-stone-400 font-body">Two offices, one accountable team.</p>
               </div>
             </div>
           </div>
