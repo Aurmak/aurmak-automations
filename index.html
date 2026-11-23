@@ -12,6 +12,9 @@
     <meta name="theme-color" content="#0E2A28" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="canonical" href="https://automations.aurmak.com/" />
+    <!-- The hero video's poster is the homepage LCP. Fetch it from the HTML instead of
+         waiting for React to render the <video>. -->
+    <link rel="preload" as="image" href="/hero-poster.webp" type="image/webp" fetchpriority="high" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />

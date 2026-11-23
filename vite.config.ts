@@ -12,11 +12,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        // Keep the big, stable third-party libs in their own long-cached chunks,
-        // separate from app code (which changes far more often).
+        // Keep React in its own long-cached chunk, separate from app code (which changes
+        // far more often). framer-motion is deliberately not pinned to one chunk: its
+        // animation features are split out and loaded lazily (see App.tsx LazyMotion).
         manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'motion': ['framer-motion']
+          'react-vendor': ['react', 'react-dom', 'react-router-dom']
         }
       }
     }

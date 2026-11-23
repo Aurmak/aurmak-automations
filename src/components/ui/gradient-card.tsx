@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -74,7 +74,7 @@ const GradientCard = React.forwardRef<HTMLDivElement, GradientCardProps>(
     const wrapperProps = isInternal ? { to: ctaHref } : { href: ctaHref };
 
     return (
-      <motion.div
+      <m.div
         variants={cardAnimation}
         initial="rest"
         whileHover="hover"
@@ -94,7 +94,7 @@ const GradientCard = React.forwardRef<HTMLDivElement, GradientCardProps>(
         >
           {/* Decorative graphic */}
           {imageUrl ? (
-            <motion.img
+            <m.img
               src={imageUrl}
               alt=""
               aria-hidden="true"
@@ -103,16 +103,16 @@ const GradientCard = React.forwardRef<HTMLDivElement, GradientCardProps>(
               className="absolute -right-1/4 -bottom-1/4 w-3/4 opacity-80 pointer-events-none"
             />
           ) : Icon ? (
-            <motion.div
+            <m.div
               aria-hidden="true"
               variants={decorAnimation}
               transition={{ type: 'spring', stiffness: 400, damping: 15 }}
               className="absolute right-3 bottom-3 pointer-events-none"
             >
               <Icon className="w-20 h-20 opacity-20" style={{ color: badgeColor }} />
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div
+            <m.div
               aria-hidden="true"
               variants={decorAnimation}
               transition={{ type: 'spring', stiffness: 400, damping: 15 }}
@@ -120,7 +120,7 @@ const GradientCard = React.forwardRef<HTMLDivElement, GradientCardProps>(
             >
               <div className="w-40 h-40 rounded-full border-2 border-aurmak-navy/10" />
               <div className="absolute right-6 bottom-8 w-20 h-20 rounded-sm border-2 border-aurmak-action/30" />
-            </motion.div>
+            </m.div>
           )}
 
           {/* Content */}
@@ -144,7 +144,7 @@ const GradientCard = React.forwardRef<HTMLDivElement, GradientCardProps>(
             </span>
           </div>
         </Wrapper>
-      </motion.div>
+      </m.div>
     );
   }
 );
