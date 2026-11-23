@@ -1,0 +1,26 @@
+# AURMAK Automations
+
+> AURMAK automates the checking, matching and data entry that eats a back-office team's day, inside tools like Odoo, Zoho and Xero. A person signs off anything that matters.
+
+## Solutions
+
+- [Payment Reconciliation Automation](https://automations.aurmak.com/solutions/payment-reconciliation): Automated matching between bank settlement feeds and open sales invoices.
+- [Supplier Invoice & PO Matching Automation](https://automations.aurmak.com/solutions/supplier-invoice-matching): Extracts line items from supplier bills and validates against approved purchase orders.
+- [Customer Onboarding Automation](https://automations.aurmak.com/solutions/customer-onboarding): Coordinates customer records, registry checks, and account setup across CRM and ERP.
+- [Stock Discrepancy & ERP Adjustment Automation](https://automations.aurmak.com/solutions/inventory-stock-adjustment): Compares warehouse cycle counts and 3PL reports with ERP inventory balances.
+- [Contract Milestone Billing & Subscription Sync](https://automations.aurmak.com/solutions/contract-milestone-billing): Synchronizes delivery milestone sign-offs with recurring billing and revenue recognition.
+- [Email Add-on for Outlook & Gmail](https://automations.aurmak.com/solutions/email-client-addon): An inbox add-in that turns incoming emails and attachments into automated actions.
+- [School Operations Automation](https://automations.aurmak.com/solutions/school-operations): A layer over your existing school system that watches its records and chases fees, attendance, and homework.
+- [Document & Receipt Verification](https://automations.aurmak.com/solutions/document-receipt-verification): Reads deposit slips, cheques, and transfer proofs, checks each one twice, and matches it to bank and ledger records.
+- [Ask Odoo AI Reporting](https://automations.aurmak.com/solutions/ask-odoo-ai): Ask about ledgers and projects in plain language and get answers from live Odoo data, with no write access.
+
+## Company
+
+- [Home](https://automations.aurmak.com/): What AURMAK automates and how it works.
+- [Contact](https://automations.aurmak.com/contact): Ask for a free automation plan.
+
+## Optional
+
+- [Privacy policy](https://automations.aurmak.com/privacy)
+- [Cookie policy](https://automations.aurmak.com/cookies)
+- [Terms](https://automations.aurmak.com/terms)

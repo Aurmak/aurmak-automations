@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, useReducedMotion } from 'framer-motion';
+import { m, useMotionValue, useSpring, useTransform, useMotionTemplate, useReducedMotion } from 'framer-motion';
 import { cn } from '../../lib/utils';
 
 interface TiltCardProps {
@@ -49,14 +49,14 @@ export const TiltCard: React.FC<TiltCardProps> = ({ children, className, intensi
 
   return (
     <div style={{ perspective: '1000px' }} className={className}>
-      <motion.div
+      <m.div
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={{ rotateX, rotateY, boxShadow, transformStyle: 'preserve-3d' }}
         className={cn('h-full w-full rounded-xl will-change-transform')}
       >
         {children}
-      </motion.div>
+      </m.div>
     </div>
   );
 };

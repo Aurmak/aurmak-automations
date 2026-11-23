@@ -47,7 +47,7 @@ export const HomePage: React.FC = () => {
           muted
           playsInline
           preload="metadata"
-          poster={asset('hero-poster.jpg')}
+          poster={asset('hero-poster.webp')}
           aria-hidden="true"
         >
           <source src={asset('new.mp4')} type="video/mp4" />

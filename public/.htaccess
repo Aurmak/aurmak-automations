@@ -7,6 +7,10 @@ RewriteRule ^api/lead/?$ api.php [L,QSA]
 
 # React Router does client-side routing, so any path that isn't a real file
 # (e.g. /pricing) must still be served index.html and let the app render it.
+# Paths with a file extension (e.g. /ai-catalog.json, /missing.png) are never app routes,
+# so they get a real 404 instead of index.html; serving HTML there breaks crawlers and
+# tools that expect JSON, text or an image.
+RewriteCond %{REQUEST_URI} !\.[A-Za-z0-9]+$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.html [L]

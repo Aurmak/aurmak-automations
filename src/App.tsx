@@ -1,5 +1,8 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { MotionConfig } from 'framer-motion';
+import { LazyMotion, MotionConfig } from 'framer-motion';
+
+// framer-motion's animation features load after first paint instead of in the main bundle.
+const loadMotionFeatures = () => import('./lib/motionFeatures').then((mod) => mod.default);
 import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import { CookieConsentProvider } from './components/privacy/CookieConsent';
 import { Navbar } from './components/layout/Navbar';
@@ -48,6 +51,7 @@ const RedirectSolution: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
+    <LazyMotion features={loadMotionFeatures} strict>
     <MotionConfig reducedMotion="user">
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <CookieConsentProvider>
@@ -83,6 +87,7 @@ export const App: React.FC = () => {
       </CookieConsentProvider>
     </BrowserRouter>
     </MotionConfig>
+    </LazyMotion>
   );
 };
 
